@@ -8,18 +8,8 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint .",
-    "format": "prettier --write ."
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "prettier --write . && lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.(ts|tsx)": [
-      "npm run lint:write",
-      "git add"
-    ]
+    "format": "prettier --write .",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.22.0",
@@ -31,7 +21,6 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "husky": "^7.0.4",
     "lint-staged": "^12.4.1",
     "prettier": "^2.6.2",
     "react": "^18.2.0",
@@ -42,6 +31,7 @@
     "@types/react-dom": "^18.0.10",
     "@vitejs/plugin-react": "^3.1.0",
     "typescript": "^4.9.3",
-    "vite": "^4.1.0"
+    "vite": "^4.1.0",
+    "husky": "^8.0.0"
   }
 }
