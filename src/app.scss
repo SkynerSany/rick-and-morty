@@ -1,0 +1,23 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  cursor: default;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 1366px;
+  margin: 0 auto;
+}
+
+.center-loc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

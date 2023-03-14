@@ -1,0 +1,11 @@
+.menu {
+  display: flex;
+  gap: 20px
+}
+
+.menu__link {
+  font-size: 24px;
+  color: white;
+  
+  cursor: pointer;
+}
