@@ -1,11 +1,18 @@
 .error-page {
+  .wrapper {
+    height: 100%;
+  }
+}
 
+.error-page__container {
+  flex-direction: column;
 }
 
 .error-page__title {
   color: red;
+  font-size: 124px;
 }
 
 .error-page__desc {
-
+  font-size: 48px;
 }

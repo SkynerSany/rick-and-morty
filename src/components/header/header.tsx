@@ -1,13 +1,18 @@
+import { Link } from 'react-router-dom';
 import Menu from '../menu/menu';
+import Search from '../search/search';
 import './header.scss';
 
 export default function Header() {
   return (
-    <header className='header center-loc'>
+    <header className="header center-loc">
       <div className="wrapper">
-        <h1 className="header__logo">RS React</h1>
-        <Menu/>
+        <Link to="/" className="header__logo">
+          RS React
+        </Link>
+        <Search />
+        <Menu />
       </div>
     </header>
-  )
-};
+  );
+}
