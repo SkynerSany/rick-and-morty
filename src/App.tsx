@@ -5,7 +5,7 @@ import About from './pages/about/about';
 import ErrorPage from './pages/error-page/error-page';
 import Main from './pages/main-page/main-page';
 
-export default function App() {
+export default function App(): JSX.Element {
   return (
     <>
       <Routes>

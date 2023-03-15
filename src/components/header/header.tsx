@@ -3,7 +3,7 @@ import Menu from '../menu/menu';
 import Search from '../search/search';
 import './header.scss';
 
-export default function Header() {
+export default function Header(): JSX.Element {
   return (
     <header className="header center-loc">
       <div className="wrapper">

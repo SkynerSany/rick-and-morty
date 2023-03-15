@@ -13,13 +13,25 @@ export default class Search extends React.Component {
     };
   }
 
-  changeSearch(text: string) {
+  changeSearch(text: string): void {
     this.setState({ searchText: text });
-    localStorage.search = text;
   }
 
-  componentDidMount(): void {
+  saveSearch(): void {
+    localStorage.search = this.state.searchText;
+  }
+
+  UNSAFE_componentWillMount(): void {
     this.setState({ searchText: localStorage.search || '' });
+  }
+
+  // added this to support page refresh
+  componentDidUpdate(): void {
+    this.saveSearch();
+  }
+
+  componentWillUnmount(): void {
+    this.saveSearch();
   }
 
   render(): JSX.Element {
