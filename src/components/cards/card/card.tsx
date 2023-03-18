@@ -13,8 +13,8 @@ export default function Card({ cardData }: ICardProps): JSX.Element {
           <img src={cardData.photo} alt="photo" />
         </figure>
         <div className="card-body">
-          <h2>{cardData.title}</h2>
-          <p>{cardData.text}</p>
+          <h2 className="card__title">{cardData.title}</h2>
+          <p className="card__desc">{cardData.text}</p>
           <a href="#" className="read-more">
             Read more <span className="sr-only">about this is some title</span>
             <svg

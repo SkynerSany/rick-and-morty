@@ -13,6 +13,9 @@ export default function Header(): JSX.Element {
         <Search />
         <Menu />
       </div>
+      <div className="mobile-wrapper">
+        <Search />
+      </div>
     </header>
   );
 }

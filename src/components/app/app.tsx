@@ -1,9 +1,9 @@
 import { Route, Routes } from 'react-router-dom';
 import './app.scss';
-import Layout from './components/layout/layout';
-import About from './pages/about/about';
-import ErrorPage from './pages/error-page/error-page';
-import Main from './pages/main-page/main-page';
+import Layout from '../layout/layout';
+import About from '../../pages/about/about';
+import ErrorPage from '../../pages/error-page/error-page';
+import Main from '../../pages/main-page/main-page';
 
 export default function App(): JSX.Element {
   return (

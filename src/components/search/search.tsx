@@ -9,42 +9,25 @@ export default class Search extends React.Component {
   constructor(props: ReactPropTypes) {
     super(props);
     this.state = {
-      searchText: '',
+      searchText: localStorage.search || '',
     };
   }
 
-  changeSearch(text: string): void {
-    this.setState({ searchText: text });
-  }
-
-  saveSearch(): void {
-    localStorage.search = this.state.searchText;
-  }
-
-  UNSAFE_componentWillMount(): void {
-    this.setState({ searchText: localStorage.search || '' });
-  }
-
-  // added this to support page refresh
   componentDidUpdate(): void {
-    this.saveSearch();
-  }
-
-  componentWillUnmount(): void {
-    this.saveSearch();
+    localStorage.setItem('search', this.state.searchText);
   }
 
   render(): JSX.Element {
     return (
       <div className="search">
         <input
-          onChange={(event) => this.changeSearch(event.target.value)}
+          onChange={(event) => this.setState({ searchText: event.target.value })}
           value={this.state.searchText}
           type="text"
           placeholder="Write something"
           className="search__input"
         />
-        <button type="submit" className="search__button" tabIndex={-1}>
+        <button type="submit" className="search__button">
           Search
         </button>
       </div>
