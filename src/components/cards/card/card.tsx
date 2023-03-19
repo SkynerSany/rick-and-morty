@@ -1,5 +1,5 @@
 import './card.scss';
-import { ICardData } from '../../../interfaces';
+import { ICardData } from '../card-interfaces';
 
 interface ICardProps {
   cardData: ICardData;

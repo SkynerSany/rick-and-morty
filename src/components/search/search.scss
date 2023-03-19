@@ -1,13 +1,15 @@
 .search {
+  margin: 20px 0;
   display: grid;
-  grid-template-columns: 320px 80px;
+  grid-template-columns: auto 80px;
   gap: 10px;
 
   &__input {
     height: 40px;
-    padding: 10px;
+    padding: 0 10px;
 
     font-size: 16px;
+    line-height: 41px;
   }
 
   &__button {
@@ -15,9 +17,5 @@
 
     font-size: 16px;
     font-weight: 500;
-  }
-
-  @media screen and (max-width: 785px) {
-    grid-template-columns: auto 80px;
   }
 }

@@ -1,15 +1,18 @@
-import React, { ReactPropTypes } from 'react';
+import React from 'react';
 import { v1 as uuidv1 } from 'uuid';
-import { ICardData } from '../../interfaces';
+import { ICardData } from './card-interfaces';
 import Card from './card/card';
 import './cards.scss';
 
-export default class Cards extends React.Component {
+export default class Cards extends React.Component<
+  { setError: (message: string) => void },
+  { cards: ICardData[] }
+> {
   state: {
     cards: ICardData[];
   };
 
-  constructor(props: ReactPropTypes) {
+  constructor(props: { setError: (message: string) => void }) {
     super(props);
     this.state = {
       cards: [],
@@ -22,8 +25,8 @@ export default class Cards extends React.Component {
       .then((result) => {
         this.setState({ cards: result });
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((error: Error) => {
+        this.props.setError(`${error.message}`);
       });
   }
 

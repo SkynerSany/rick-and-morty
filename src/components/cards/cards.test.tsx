@@ -15,29 +15,53 @@ const cardsData = [
   },
 ];
 
+const mockSetError = vi.fn((message: string) => {
+  const state: { errors: string[] } = {
+    errors: [],
+  };
+  state.errors.push(message);
+});
+
 const mockFetch = vi.fn(() =>
   Promise.resolve({
     json: () => Promise.resolve(cardsData),
   })
 );
 
-Object.defineProperty(global, 'fetch', {
-  value: mockFetch,
-});
+const mockRejectFetch = vi.fn(() =>
+  Promise.reject(() => {
+    message: 'test error';
+  })
+);
 
 describe('<Cards />', () => {
   test('Cards mounts properly', async () => {
-    const wrapper = render(<Cards />);
+    Object.defineProperty(global, 'fetch', {
+      value: mockFetch,
+    });
+
+    const wrapper = render(<Cards setError={mockSetError} />);
     expect(wrapper).toBeTruthy();
 
     await act(async () => {
-      await new Promise((resolve) =>
-        setTimeout(() => {
-          resolve(true);
-        }, 100)
-      );
+      await new Promise((resolve) => setTimeout(() => resolve(true), 100));
     });
 
     expect(wrapper.getAllByText('This is some title').length).toBe(cardsData.length);
+  });
+
+  test('Cards not load', async () => {
+    Object.defineProperty(global, 'fetch', {
+      value: mockRejectFetch,
+    });
+
+    const wrapper = render(<Cards setError={mockSetError} />);
+    expect(wrapper).toBeTruthy();
+
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(() => resolve(true), 100));
+    });
+
+    expect(wrapper.container.querySelector('card')).toBe(null);
   });
 });

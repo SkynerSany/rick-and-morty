@@ -1,3 +1,20 @@
 .footer {
   background-color: black;
+
+  .wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+  }
+}
+
+.footer__link {
+  color: white;
+  font-size: 24px;
+
+  cursor: pointer;
+
+  &:hover {
+    color: orange;
+  }
 }
