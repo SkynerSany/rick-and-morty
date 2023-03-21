@@ -7,6 +7,7 @@ import ErrorPage from '../../pages/error-page/error-page';
 import Main from '../../pages/main-page/main-page';
 import React, { ReactPropTypes } from 'react';
 import ErrorMessage from '../error-message/error-message';
+import Forms from '../../pages/forms/forms';
 
 export default class App extends React.Component {
   state: {
@@ -42,6 +43,7 @@ export default class App extends React.Component {
         <Routes>
           <Route path="/" element={<Layout errors={this.createError()} />}>
             <Route index element={<Main setError={this.setError} />} />
+            <Route path="forms" element={<Forms />} />
             <Route path="about" element={<About />} />
             <Route path="*" element={<ErrorPage />} />
           </Route>

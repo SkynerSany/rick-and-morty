@@ -8,8 +8,8 @@ export default function Main({ setError }: { setError: (message: string) => void
   return (
     <section className="main">
       <div className="wrapper">
-        <Search />
         <h2 className="page-title">Main</h2>
+        <Search />
         <Cards setError={setError} />
       </div>
     </section>

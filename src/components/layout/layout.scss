@@ -3,7 +3,7 @@
   display: grid;
   grid-template-rows: 80px auto 60px;
 
-  @media screen and (max-width: 785px) {
+  @media screen and (max-width: 575px) {
     grid-template-rows: 122px auto 60px;
   }
 }

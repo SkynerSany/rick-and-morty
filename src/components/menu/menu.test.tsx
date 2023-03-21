@@ -9,6 +9,9 @@ test('Menu component is load', () => {
     </MemoryRouter>
   );
 
-  expect(wrapper.container.querySelectorAll('.menu__link')[0].textContent).toBe('Home');
-  expect(wrapper.container.querySelectorAll('.menu__link')[1].textContent).toBe('About Us');
+  const routes = wrapper.container.querySelectorAll('.menu__link');
+
+  expect(routes[0].textContent).toBe('Home');
+  expect(routes[1].textContent).toBe('Forms');
+  expect(routes[2].textContent).toBe('About Us');
 });
