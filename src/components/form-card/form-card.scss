@@ -1,0 +1,18 @@
+.form-card-wrapper {
+  padding: 20px;
+}
+
+.form-card__number {
+  font-size: 24px;
+  text-align: center;
+}
+
+.form-card__wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-card__text {
+  font-size: 20px;
+}
