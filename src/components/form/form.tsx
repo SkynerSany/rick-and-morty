@@ -26,14 +26,22 @@ export default class Form extends Component<{ setForm: () => void }> {
     const heard: string[] = heardInputs
       .filter((input) => input.checked)
       .map((input) => input.dataset.heard || '');
-
     return {
       name: inputs[0].value,
       birthday: inputs[1].value,
       country: inputs[2].value,
       gender: inputs[3].checked ? 'Female' : 'Male',
       heard: heard,
+      image: URL.createObjectURL(inputs[inputs.length - 2].files![0]),
     };
+  }
+
+  getDate(): string {
+    const date = new Date();
+    return `${date.getFullYear()}-${date.getMonth().toString().padStart(2, '0')}-${date
+      .getDate()
+      .toString()
+      .padStart(2, '0')}`;
   }
 
   submitForm(event: React.FormEvent) {
@@ -42,7 +50,7 @@ export default class Form extends Component<{ setForm: () => void }> {
     if (localStorage.forms) {
       localStorage.forms = JSON.stringify([...JSON.parse(localStorage.forms), newForm]);
     } else {
-      localStorage.forms = JSON.stringify([newForm]);
+      localStorage.setItem('forms', JSON.stringify([newForm]));
     }
 
     this.props.setForm();
@@ -54,12 +62,27 @@ export default class Form extends Component<{ setForm: () => void }> {
         <div className="form-wrapper">
           <label className="input-label">
             Your name
-            <input ref={this.name} type="text" className="form__name" />
+            <input
+              ref={this.name}
+              type="text"
+              className="form__name"
+              pattern="[A-Z\u0410-\u042f]{1}[a-z\u0430-\u044f]+\s[A-Z\u0410-\u042f]{1}[a-z\u0430-\u044f]{1,}"
+              title="First name and last name must start with a capital letter, last name contains more than two characters."
+              required
+            />
           </label>
           <div className="form__two-columns">
             <label className="input-label">
               Your birthday
-              <input ref={this.birthday} type="date" className="form__birthday" />
+              <input
+                ref={this.birthday}
+                type="date"
+                className="form__birthday"
+                min="1940-03-23"
+                max={this.getDate()}
+                defaultValue={this.getDate()}
+                required
+              />
             </label>
             <label className="input-label">
               Your country
@@ -85,7 +108,7 @@ export default class Form extends Component<{ setForm: () => void }> {
               Google
             </label>
           </fieldset>
-          <input type="file" className="form__file" />
+          <input type="file" className="form__file" required />
           <button className="form-submit">Submit</button>
         </div>
       </form>

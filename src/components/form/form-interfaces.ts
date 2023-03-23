@@ -4,4 +4,5 @@ export interface IForm {
   country: string;
   gender: string;
   heard: string[];
+  image: string;
 }
