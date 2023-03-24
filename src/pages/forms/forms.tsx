@@ -14,7 +14,7 @@ export default class Forms extends Component<IFormsProps, IFormsState> {
     this.setForm = this.setForm.bind(this);
   }
 
-  setForm() {
+  setForm(): void {
     this.setState({ forms: JSON.parse(localStorage.forms) });
     this.props.setMessage({
       type: 'info',
