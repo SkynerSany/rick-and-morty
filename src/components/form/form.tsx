@@ -1,6 +1,6 @@
 import React, { Component, ReactNode, RefObject } from 'react';
 import Dropdown from '../dropdown/dropdown';
-import { IForm } from './form-interfaces';
+import { getDate, submitForm } from './form-scripts';
 import './form.scss';
 
 const countryList = ['Belarus', 'Russia', 'USA', 'Italy'];
@@ -19,46 +19,9 @@ export default class Form extends Component<{ setForm: () => void }> {
     this.gender = React.createRef();
   }
 
-  saveForm(): IForm | void {
-    if (!(this.form.current instanceof HTMLFormElement)) return;
-    const inputs = Array.from(this.form.current.elements) as HTMLInputElement[];
-    const heardInputs = Array.from(inputs[4].querySelectorAll('input'));
-    const heard: string[] = heardInputs
-      .filter((input) => input.checked)
-      .map((input) => input.dataset.heard || '');
-    return {
-      name: inputs[0].value,
-      birthday: inputs[1].value,
-      country: inputs[2].value,
-      gender: inputs[3].checked ? 'Female' : 'Male',
-      heard: heard,
-      image: URL.createObjectURL(inputs[inputs.length - 2].files![0]),
-    };
-  }
-
-  getDate(): string {
-    const date = new Date();
-    return `${date.getFullYear()}-${date.getMonth().toString().padStart(2, '0')}-${date
-      .getDate()
-      .toString()
-      .padStart(2, '0')}`;
-  }
-
-  submitForm(event: React.FormEvent) {
-    event.preventDefault();
-    const newForm = this.saveForm();
-    if (localStorage.forms) {
-      localStorage.forms = JSON.stringify([...JSON.parse(localStorage.forms), newForm]);
-    } else {
-      localStorage.setItem('forms', JSON.stringify([newForm]));
-    }
-
-    this.props.setForm();
-  }
-
   render(): ReactNode {
     return (
-      <form ref={this.form} onSubmit={(e) => this.submitForm(e)} className="form">
+      <form ref={this.form} onSubmit={(e) => submitForm(e, this.props.setForm)} className="form">
         <div className="form-wrapper">
           <label className="input-label">
             Your name
@@ -79,8 +42,8 @@ export default class Form extends Component<{ setForm: () => void }> {
                 type="date"
                 className="form__birthday"
                 min="1940-03-23"
-                max={this.getDate()}
-                defaultValue={this.getDate()}
+                max={getDate()}
+                defaultValue={getDate()}
                 required
               />
             </label>

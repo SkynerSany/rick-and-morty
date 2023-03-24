@@ -1,18 +1,12 @@
 import React from 'react';
 import { v1 as uuidv1 } from 'uuid';
-import { ICardData } from './card-interfaces';
+import { TSetMessage } from '../app/app-interfaces';
+import { ICardsProps, ICardsState } from './card-interfaces';
 import Card from './card/card';
 import './cards.scss';
 
-export default class Cards extends React.Component<
-  { setError: (message: string) => void },
-  { cards: ICardData[] }
-> {
-  state: {
-    cards: ICardData[];
-  };
-
-  constructor(props: { setError: (message: string) => void }) {
+export default class Cards extends React.Component<ICardsProps, ICardsState> {
+  constructor(props: { setError: TSetMessage }) {
     super(props);
     this.state = {
       cards: [],
@@ -26,7 +20,10 @@ export default class Cards extends React.Component<
         this.setState({ cards: result });
       })
       .catch((error: Error) => {
-        this.props.setError(`${error.message}`);
+        this.props.setError({
+          type: 'error',
+          text: error.message,
+        });
       });
   }
 

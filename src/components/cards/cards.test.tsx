@@ -1,6 +1,7 @@
 import { describe, test, expect, vi } from 'vitest';
 import { act, render } from '@testing-library/react';
 import Cards from './cards';
+import { IMessage } from '../message/message-interfaces';
 
 const cardsData = [
   {
@@ -15,8 +16,8 @@ const cardsData = [
   },
 ];
 
-const mockSetError = vi.fn((message: string) => {
-  const state: { errors: string[] } = {
+const mockSetError = vi.fn((message: IMessage) => {
+  const state: { errors: IMessage[] } = {
     errors: [],
   };
   state.errors.push(message);

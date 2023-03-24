@@ -1,14 +1,21 @@
-.error-message {
+.message {
   height: 100px;
   width: 240px;
 
   border-radius: 8px;
-  background-color: rgb(255 0 0 / 50%);
 
   animation: hide 0.5s 2s forwards linear;
+
+  &.error {
+    background-color: rgb(255 0 0 / 50%);
+  }
+
+  &.info {
+    background-color: rgba(0, 139, 7, 0.5);
+  }
 }
 
-.error-message__text {
+.message__text {
   padding: 10px;
 
   font-size: 18px;
