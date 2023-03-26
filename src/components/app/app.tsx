@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { v1 as uuidv1 } from 'uuid';
 import './app.scss';
-import Layout from '../layout/layout';
+import Layout, { AppContext } from '../layout/layout';
 import About from '../../pages/about/about';
 import ErrorPage from '../../pages/error-page/error-page';
 import Main from '../../pages/main-page/main-page';
@@ -37,16 +37,16 @@ export default class App extends React.Component<Record<string, never>, IAppStat
 
   render() {
     return (
-      <>
+      <AppContext.Provider value={this.setMessage}>
         <Routes>
           <Route path="/" element={<Layout errors={this.createMessage()} />}>
-            <Route index element={<Main setError={this.setMessage} />} />
-            <Route path="forms" element={<Forms setMessage={this.setMessage} />} />
+            <Route index element={<Main />} />
+            <Route path="forms" element={<Forms />} />
             <Route path="about" element={<About />} />
             <Route path="*" element={<ErrorPage />} />
           </Route>
         </Routes>
-      </>
+      </AppContext.Provider>
     );
   }
 }

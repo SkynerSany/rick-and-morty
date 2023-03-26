@@ -2,11 +2,15 @@ import { Component, ReactNode } from 'react';
 import { v1 } from 'uuid';
 import FormCard from '../../components/form-card/form-card';
 import Form from '../../components/form/form';
-import { IFormsProps, IFormsState } from './forms-interfaces';
+import { AppContext } from '../../components/layout/layout';
+import { IFormsState } from './forms-interfaces';
 import './forms.scss';
 
-export default class Forms extends Component<IFormsProps, IFormsState> {
-  constructor(props: IFormsProps) {
+export default class Forms extends Component<Record<string, never>, IFormsState> {
+  static contextType = AppContext;
+  declare context: React.ContextType<typeof AppContext>;
+
+  constructor(props: Record<string, never>) {
     super(props);
     this.state = {
       forms: JSON.parse(localStorage.forms || '[]'),
@@ -16,7 +20,7 @@ export default class Forms extends Component<IFormsProps, IFormsState> {
 
   setForm(): void {
     this.setState({ forms: JSON.parse(localStorage.forms) });
-    this.props.setMessage({
+    this.context({
       type: 'info',
       text: 'Form has been submited',
     });

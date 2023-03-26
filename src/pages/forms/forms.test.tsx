@@ -11,12 +11,12 @@ const formCardData = {
 };
 
 test('Forms page is load', () => {
-  const wrapper = render(<Forms setMessage={() => {}} />);
+  const wrapper = render(<Forms />);
   expect(wrapper.container.querySelector('h2')?.textContent).toBe('Forms');
 });
 
 test('All card-forms load', async () => {
   localStorage.forms = JSON.stringify([formCardData]);
-  const wrapper = render(<Forms setMessage={() => {}} />);
+  const wrapper = render(<Forms />);
   expect(wrapper.container.querySelector('.forms__card-wrapper')?.children.length).toBe(1);
 });

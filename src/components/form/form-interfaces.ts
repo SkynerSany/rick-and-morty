@@ -6,3 +6,7 @@ export interface IForm {
   heard: string[];
   image: string;
 }
+
+export interface IFormProps {
+  setForm: () => void;
+}

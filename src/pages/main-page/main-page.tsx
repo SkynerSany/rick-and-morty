@@ -1,9 +1,8 @@
-import { TSetMessage } from '../../components/app/app-interfaces';
 import Cards from '../../components/cards/cards';
 import Search from '../../components/search/search';
 import './main-page.scss';
 
-export default function Main({ setError }: { setError: TSetMessage }): JSX.Element {
+export default function Main(): JSX.Element {
   document.title = 'RS React';
 
   return (
@@ -11,7 +10,7 @@ export default function Main({ setError }: { setError: TSetMessage }): JSX.Eleme
       <div className="wrapper">
         <h2 className="page-title">Main</h2>
         <Search />
-        <Cards setError={setError} />
+        <Cards />
       </div>
     </section>
   );

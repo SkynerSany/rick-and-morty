@@ -1,7 +1,6 @@
 import { describe, test, expect, vi } from 'vitest';
 import { act, render } from '@testing-library/react';
 import Cards from './cards';
-import { IMessage } from '../message/message-interfaces';
 
 const cardsData = [
   {
@@ -15,13 +14,6 @@ const cardsData = [
     text: 'Curabitur convallis ac quam vitae laoreet',
   },
 ];
-
-const mockSetError = vi.fn((message: IMessage) => {
-  const state: { errors: IMessage[] } = {
-    errors: [],
-  };
-  state.errors.push(message);
-});
 
 const mockFetch = vi.fn(() =>
   Promise.resolve({
@@ -41,7 +33,7 @@ describe('<Cards />', () => {
       value: mockFetch,
     });
 
-    const wrapper = render(<Cards setError={mockSetError} />);
+    const wrapper = render(<Cards />);
     expect(wrapper).toBeTruthy();
 
     await act(async () => {
@@ -56,7 +48,7 @@ describe('<Cards />', () => {
       value: mockRejectFetch,
     });
 
-    const wrapper = render(<Cards setError={mockSetError} />);
+    const wrapper = render(<Cards />);
     expect(wrapper).toBeTruthy();
 
     await act(async () => {

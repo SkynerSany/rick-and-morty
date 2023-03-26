@@ -1,17 +1,18 @@
 import React, { Component, ReactNode, RefObject } from 'react';
 import Dropdown from '../dropdown/dropdown';
+import { IFormProps } from './form-interfaces';
 import { getDate, submitForm } from './form-scripts';
 import './form.scss';
 
 const countryList = ['Belarus', 'Russia', 'USA', 'Italy'];
 
-export default class Form extends Component<{ setForm: () => void }> {
+export default class Form extends Component<IFormProps> {
   name: RefObject<HTMLInputElement>;
   birthday: RefObject<HTMLInputElement>;
   form: RefObject<HTMLFormElement>;
   gender: RefObject<HTMLInputElement>;
 
-  constructor(props: { setForm: () => void }) {
+  constructor(props: IFormProps) {
     super(props);
     this.name = React.createRef();
     this.birthday = React.createRef();
