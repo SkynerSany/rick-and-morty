@@ -42,7 +42,17 @@
   width: 100%;
 }
 
-.form__birthday {
+.checkbox__accept {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  cursor: pointer;
+
+  input {
+    cursor: pointer;
+  }
 }
 
 .form__switcher {
