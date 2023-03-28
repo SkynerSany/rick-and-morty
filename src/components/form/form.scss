@@ -24,7 +24,7 @@
 .form__two-columns {
   width: 100%;
   display: grid;
-  align-items: end;
+  align-items: flex-start;
   grid-template-columns: minmax(140px, 300px) minmax(100px, auto) 80px;
   gap: 10px;
 
@@ -91,13 +91,15 @@
 
   .switcher {
     position: relative;
+    z-index: 3;
+
     width: 100%;
     height: 100%;
     padding: 0;
     margin: 0;
+
     opacity: 0;
     cursor: pointer;
-    z-index: 3;
   }
 
   .switcher:active + .knobs:before {
@@ -120,7 +122,11 @@
   }
 }
 
-.form__dropdawn {
+.input-error {
+  margin-top: 5px;
+
+  font-size: 14px;
+  color: red;
 }
 
 .input-label {
@@ -128,6 +134,10 @@
   flex-direction: column;
   gap: 5px;
   font-size: 22px;
+}
+
+.input__wrapper:has(.checkbox__accept) {
+  margin: 0 auto;
 }
 
 .checkbox {
@@ -160,7 +170,8 @@
   }
 }
 
-.form__file {
+.form__radio {
+  text-transform: capitalize;
 }
 
 .form-submit {

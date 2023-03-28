@@ -1,11 +1,15 @@
 import React, { Component, ReactNode, RefObject } from 'react';
+import { v1 } from 'uuid';
 import Dropdown from '../dropdown/dropdown';
-import { IForm, IFormProps } from './form-interfaces';
+import { IForm, IFormProps, IFormState } from './form-interfaces';
 import './form.scss';
+import InputCheckbox from './input-checkbox';
+import { validateInput } from './inputs-validation';
 
-const countryList = ['Belarus', 'Russia', 'USA', 'Italy'];
+const COUNTRY_LIST = ['Belarus', 'Russia', 'USA', 'Italy'];
+const CITES_LIST = ['yandex', 'google', 'youtube'];
 
-function getDate(): string {
+export function getDate(): string {
   const date = new Date();
   const year = date.getFullYear();
   const month = date.getMonth().toString().padStart(2, '0');
@@ -14,14 +18,16 @@ function getDate(): string {
   return `${year}-${month}-${day}`;
 }
 
-export default class Form extends Component<IFormProps> {
+export default class Form extends Component<IFormProps, IFormState> {
   name: RefObject<HTMLInputElement>;
   birthday: RefObject<HTMLInputElement>;
   form: RefObject<HTMLFormElement>;
   gender: RefObject<HTMLInputElement>;
   country: RefObject<HTMLInputElement>;
   image: RefObject<HTMLInputElement>;
+  accept: RefObject<HTMLInputElement>;
   heard: {
+    [key: string]: RefObject<HTMLInputElement>;
     youtube: RefObject<HTMLInputElement>;
     yandex: RefObject<HTMLInputElement>;
     google: RefObject<HTMLInputElement>;
@@ -35,10 +41,19 @@ export default class Form extends Component<IFormProps> {
     this.gender = React.createRef();
     this.country = React.createRef();
     this.image = React.createRef();
+    this.accept = React.createRef();
     this.heard = {
       youtube: React.createRef(),
       yandex: React.createRef(),
       google: React.createRef(),
+    };
+    this.state = {
+      name: true,
+      birthday: true,
+      country: true,
+      heard: true,
+      image: true,
+      accept: true,
     };
   }
 
@@ -60,6 +75,15 @@ export default class Form extends Component<IFormProps> {
 
   submitForm(event: React.FormEvent): void {
     event.preventDefault();
+    this.setState({
+      name: true,
+      birthday: true,
+      country: true,
+      heard: true,
+      image: true,
+      accept: true,
+    });
+    if (!this.validateForm()) return;
 
     const newForm = this.saveForm();
     if (localStorage.forms) {
@@ -72,78 +96,87 @@ export default class Form extends Component<IFormProps> {
     this.form.current?.reset();
   }
 
+  validateForm(): boolean {
+    const errors = {
+      name: validateInput.name(this.name),
+      birthday: validateInput.birthday(this.birthday),
+      country: validateInput.country(this.country),
+      heard: validateInput.heard(Object.values(this.heard)),
+      image: validateInput.file(this.image),
+      accept: validateInput.accept(this.accept),
+    };
+
+    this.setState(errors);
+    return Object.values(errors).filter((error) => error === false).length > 0 ? false : true;
+  }
+
   render(): ReactNode {
     return (
       <form ref={this.form} onSubmit={(e) => this.submitForm(e)} className="form">
         <div className="form-wrapper">
-          <label className="input-label">
-            Your name
-            <input
-              ref={this.name}
-              type="text"
-              className="form__name"
-              pattern="[A-Z\u0410-\u042f]{1}[a-z\u0430-\u044f]+\s[A-Z\u0410-\u042f]{1}[a-z\u0430-\u044f]{1,}"
-              title="First name and last name must start with a capital letter, last name contains more than two characters."
-              required
-            />
-          </label>
+          <div className="input__wrapper">
+            <label className="input-label">
+              Your name
+              <input ref={this.name} type="text" className="form__name" />
+            </label>
+            {this.state.name || (
+              <p className="input-error">
+                First name and last name must start with a capital letter, last name contains more
+                than two characters.
+              </p>
+            )}
+          </div>
           <div className="form__two-columns">
-            <label className="input-label">
-              Your birthday
-              <input
-                ref={this.birthday}
-                type="date"
-                className="form__birthday"
-                min="1940-03-23"
-                max={getDate()}
-                defaultValue={getDate()}
-                required
-              />
-            </label>
-            <label className="input-label">
-              Your country
-              <Dropdown dropdownList={countryList} dropdownRef={this.country} />
-            </label>
-            <div className="form__switcher">
-              <input type="checkbox" className="switcher" />
-              <div className="knobs"></div>
+            <div className="input__wrapper">
+              <label className="input-label">
+                Your birthday
+                <input ref={this.birthday} type="date" className="form__birthday" />
+              </label>
+              {this.state.birthday || (
+                <p className="input-error">Date of birth cannot be greater than the current date</p>
+              )}
+            </div>
+            <div className="input__wrapper">
+              <label className="input-label">
+                Your country
+                <Dropdown dropdownList={COUNTRY_LIST} dropdownRef={this.country} />
+              </label>
+              {this.state.country || <p className="input-error">Select one country</p>}
+            </div>
+            <div className="input__wrapper">
+              <label className="input-label">
+                Gender
+                <div className="form__switcher">
+                  <input type="checkbox" className="switcher" />
+                  <div className="knobs"></div>
+                </div>
+              </label>
             </div>
           </div>
-          <fieldset className="checkbox">
+          <fieldset className="checkbox input__wrapper">
             <legend>Where you heard about us</legend>
-            <label className="checkbox__row">
-              <input
-                ref={this.heard.youtube}
-                type="checkbox"
-                className="form__radio"
-                data-heard="YouTube"
-              />
-              YouTube
-            </label>
-            <label className="checkbox__row">
-              <input
-                ref={this.heard.yandex}
-                type="checkbox"
-                className="form__radio"
-                data-heard="Yandex"
-              />
-              Yandex
-            </label>
-            <label className="checkbox__row">
-              <input
-                ref={this.heard.google}
-                type="checkbox"
-                className="form__radio"
-                data-heard="Google"
-              />
-              Google
-            </label>
+            {CITES_LIST.map((cite) => (
+              <InputCheckbox inputRef={this.heard[cite]} name={cite} key={v1()} />
+            ))}
+            {this.state.heard || <p className="input-error">Select at least one source</p>}
           </fieldset>
-          <input ref={this.image} type="file" className="form__file" accept="image/*" required />
+          <div className="input__wrapper">
+            <input ref={this.image} type="file" className="form__file" accept="image/*" />
+            {this.state.image || <p className="input-error">You can load only images</p>}
+          </div>
           <button className="form-submit">Submit</button>
-          <label className="checkbox__accept">
-            <input type="checkbox" className="form__radio" required />I confirm that I am a cute cat
-          </label>
+          <div className="input__wrapper">
+            <label className="checkbox__accept">
+              <input
+                ref={this.accept}
+                type="checkbox"
+                className="form__radio"
+                defaultChecked={true}
+              />
+              I confirm that I am a cute cat
+            </label>
+            {this.state.accept || <p className="input-error">You must agree</p>}
+          </div>
         </div>
       </form>
     );

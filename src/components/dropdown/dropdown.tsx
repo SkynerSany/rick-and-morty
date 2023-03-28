@@ -20,13 +20,7 @@ export default class Dropdown extends Component<IDropdownProps, IDropdownState> 
   render(): ReactNode {
     return (
       <div onClick={() => this.setState({ list: !this.state.list })} className="dropdown">
-        <input
-          ref={this.props.dropdownRef}
-          defaultValue={this.props.dropdownList[0]}
-          type="text"
-          className="dropdown__current"
-          disabled
-        />
+        <input ref={this.props.dropdownRef} type="text" className="dropdown__current" disabled />
         <ul
           onClick={(event) => this.setCurrentValue(event.target)}
           className={`dropdown__list ${this.state.list ? 'dropdown__show' : ''}`}
