@@ -1,52 +1,52 @@
 import { Route, Routes } from 'react-router-dom';
 import { v1 as uuidv1 } from 'uuid';
 import './app.scss';
-import Layout from '../layout/layout';
+import Layout, { AppContext } from '../layout/layout';
 import About from '../../pages/about/about';
 import ErrorPage from '../../pages/error-page/error-page';
 import Main from '../../pages/main-page/main-page';
-import React, { ReactPropTypes } from 'react';
-import ErrorMessage from '../error-message/error-message';
+import React from 'react';
+import Message from '../message/message';
+import Forms from '../../pages/forms/forms';
+import { IMessage } from '../message/message-interfaces';
+import { IAppState } from './app-interfaces';
 
-export default class App extends React.Component {
-  state: {
-    errors: string[];
-  };
-
-  constructor(props: ReactPropTypes) {
+export default class App extends React.Component<Record<string, never>, IAppState> {
+  constructor(props: Record<string, never>) {
     super(props);
     this.state = {
       errors: [],
     };
-    this.setError = this.setError.bind(this);
+    this.setMessage = this.setMessage.bind(this);
   }
 
-  removeError(message: string): void {
-    this.setState({ errors: this.state.errors.filter((errorMessage) => errorMessage !== message) });
+  removeError(index: number): void {
+    this.setState({ errors: this.state.errors.filter((_, i) => index !== i) });
   }
 
-  setError(message: string): void {
+  setMessage(message: IMessage): void {
     this.setState({ errors: [...this.state.errors, message] });
   }
 
-  createError(): JSX.Element[] {
-    return this.state.errors.map((errorMessage) => {
-      setTimeout(() => this.removeError(errorMessage), 3000);
-      return <ErrorMessage errorText={errorMessage} key={uuidv1()} />;
+  createMessage(): JSX.Element[] {
+    return this.state.errors.map((message, i) => {
+      setTimeout(() => this.removeError(i), 3000);
+      return <Message message={message} key={uuidv1()} />;
     });
   }
 
   render() {
     return (
-      <>
+      <AppContext.Provider value={this.setMessage}>
         <Routes>
-          <Route path="/" element={<Layout errors={this.createError()} />}>
-            <Route index element={<Main setError={this.setError} />} />
+          <Route path="/" element={<Layout errors={this.createMessage()} />}>
+            <Route index element={<Main />} />
+            <Route path="forms" element={<Forms />} />
             <Route path="about" element={<About />} />
             <Route path="*" element={<ErrorPage />} />
           </Route>
         </Routes>
-      </>
+      </AppContext.Provider>
     );
   }
 }

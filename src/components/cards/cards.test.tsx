@@ -15,13 +15,6 @@ const cardsData = [
   },
 ];
 
-const mockSetError = vi.fn((message: string) => {
-  const state: { errors: string[] } = {
-    errors: [],
-  };
-  state.errors.push(message);
-});
-
 const mockFetch = vi.fn(() =>
   Promise.resolve({
     json: () => Promise.resolve(cardsData),
@@ -40,7 +33,7 @@ describe('<Cards />', () => {
       value: mockFetch,
     });
 
-    const wrapper = render(<Cards setError={mockSetError} />);
+    const wrapper = render(<Cards />);
     expect(wrapper).toBeTruthy();
 
     await act(async () => {
@@ -55,7 +48,7 @@ describe('<Cards />', () => {
       value: mockRejectFetch,
     });
 
-    const wrapper = render(<Cards setError={mockSetError} />);
+    const wrapper = render(<Cards />);
     expect(wrapper).toBeTruthy();
 
     await act(async () => {
