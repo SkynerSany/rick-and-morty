@@ -1,3 +1,5 @@
+import { IInputList } from './inputs/inputs-list';
+
 export interface IForm {
   name: string;
   birthday: string;
@@ -19,3 +21,13 @@ export interface IFormState {
   image: boolean;
   accept: boolean;
 }
+
+export interface IFormSubmitProps {
+  event: React.FormEvent;
+  inputList: IInputList;
+  setForm: () => void;
+  inputValid: IFormState;
+  setInputValid: TUseStateInput;
+}
+
+export type TUseStateInput = React.Dispatch<React.SetStateAction<IFormState>>;

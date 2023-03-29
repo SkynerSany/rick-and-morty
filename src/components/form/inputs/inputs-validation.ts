@@ -1,7 +1,7 @@
 import { RefObject } from 'react';
 
 export const validateInput = {
-  name: (input: RefObject<HTMLInputElement>): boolean => {
+  name: (input: RefObject<HTMLInputElement | undefined>): boolean => {
     if (!(input.current instanceof HTMLInputElement)) return false;
     const text = input.current.value.trim();
     const [firstName, lastName] = text.split(' ');
@@ -13,7 +13,7 @@ export const validateInput = {
     return true;
   },
 
-  birthday: (input: RefObject<HTMLInputElement>): boolean => {
+  birthday: (input: RefObject<HTMLInputElement | undefined>): boolean => {
     if (!(input.current instanceof HTMLInputElement)) return false;
     const date = input.current.value;
 
@@ -23,25 +23,25 @@ export const validateInput = {
     return true;
   },
 
-  country: (input: RefObject<HTMLInputElement>): boolean => {
+  country: (input: RefObject<HTMLInputElement | undefined>): boolean => {
     if (!(input.current instanceof HTMLInputElement)) return false;
     if (input.current.value === '') return false;
     return true;
   },
 
-  heard: (inputs: RefObject<HTMLInputElement>[]): boolean => {
+  heard: (inputs: RefObject<HTMLInputElement | undefined>[]): boolean => {
     if (!inputs.find((input) => input.current instanceof HTMLInputElement && input.current.checked))
       return false;
     return true;
   },
 
-  accept: (input: RefObject<HTMLInputElement>): boolean => {
+  accept: (input: RefObject<HTMLInputElement | undefined>): boolean => {
     if (!(input.current instanceof HTMLInputElement)) return false;
     if (!input.current.checked) return false;
     return true;
   },
 
-  file: (input: RefObject<HTMLInputElement>) => {
+  file: (input: RefObject<HTMLInputElement | undefined>) => {
     if (!(input.current instanceof HTMLInputElement)) return false;
     if (input.current.value === '') return false;
     if (input.current.files?.length === 0) return false;

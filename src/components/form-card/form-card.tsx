@@ -1,10 +1,5 @@
-import { IForm } from '../form/form-interfaces';
+import IFormCardProps from './form-card-interfaces';
 import './form-card.scss';
-
-interface IFormCardProps {
-  formData: IForm;
-  formNumber: number;
-}
 
 export default function FormCard({ formData, formNumber }: IFormCardProps): JSX.Element {
   return (

@@ -1,36 +1,25 @@
-import React, { ReactPropTypes } from 'react';
+import { useMemo, useState } from 'react';
 import './search.scss';
 
-export default class Search extends React.Component {
-  state: {
-    searchText: string;
-  };
+export default function Search(): JSX.Element {
+  const [searchText, setSearchText] = useState<string>(localStorage.search || '');
 
-  constructor(props: ReactPropTypes) {
-    super(props);
-    this.state = {
-      searchText: localStorage.search || '',
-    };
-  }
+  useMemo(() => {
+    localStorage.setItem('search', searchText);
+  }, [searchText]);
 
-  componentDidUpdate(): void {
-    localStorage.setItem('search', this.state.searchText);
-  }
-
-  render(): JSX.Element {
-    return (
-      <div className="search">
-        <input
-          onChange={(event) => this.setState({ searchText: event.target.value })}
-          value={this.state.searchText}
-          type="text"
-          placeholder="Write something"
-          className="search__input"
-        />
-        <button type="submit" className="search__button">
-          Search
-        </button>
-      </div>
-    );
-  }
+  return (
+    <div className="search">
+      <input
+        onChange={(event) => setSearchText(event.target.value)}
+        value={searchText}
+        type="text"
+        placeholder="Write something"
+        className="search__input"
+      />
+      <button type="submit" className="search__button">
+        Search
+      </button>
+    </div>
+  );
 }
