@@ -1,21 +1,21 @@
-import React from 'react';
 import Dropdown from '../../dropdown/dropdown';
-
-interface IProps {
-  inputRef: React.RefObject<HTMLInputElement>;
-  validation: boolean;
-}
+import { IInputProps } from '../form-interfaces';
 
 const COUNTRY_LIST = ['Belarus', 'Russia', 'USA', 'Italy'];
 
-export default function InputCountry({ inputRef, validation }: IProps) {
+function isCountry(value: string) {
+  if (value === '') return false;
+  return true;
+}
+
+export default function InputCountry({ register, errors }: IInputProps) {
   return (
     <div className="input__wrapper">
       <label className="input-label">
         Your country
-        <Dropdown dropdownList={COUNTRY_LIST} dropdownRef={inputRef} />
+        <Dropdown dropdownList={COUNTRY_LIST} register={register} valid={isCountry} />
       </label>
-      {validation || <p className="input-error">Select one country</p>}
+      {errors.country && <p className="input-error">Select one country</p>}
     </div>
   );
 }

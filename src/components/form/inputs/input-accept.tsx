@@ -1,18 +1,20 @@
-import React from 'react';
+import { IInputProps } from '../form-interfaces';
 
-interface IProps {
-  inputRef: React.RefObject<HTMLInputElement>;
-  validation: boolean;
-}
-
-export default function InputAccept({ inputRef, validation }: IProps) {
+export default function InputAccept({ register, errors }: IInputProps) {
   return (
     <div className="input__wrapper">
       <label className="checkbox__accept">
-        <input ref={inputRef} type="checkbox" className="form__radio" defaultChecked={true} />I
-        confirm that I am a cute cat
+        <input
+          type="checkbox"
+          className="form__radio"
+          defaultChecked={true}
+          {...register('accept', {
+            required: true,
+          })}
+        />
+        I confirm that I am a cute cat
       </label>
-      {validation || <p className="input-error">You must agree</p>}
+      {errors.accept && <p className="input-error">You must agree</p>}
     </div>
   );
 }

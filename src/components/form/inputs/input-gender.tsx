@@ -1,16 +1,16 @@
-import React from 'react';
+import { FieldValues, UseFormRegister } from 'react-hook-form/dist/types';
 
 interface IProps {
-  inputRef: React.RefObject<HTMLInputElement>;
+  register: UseFormRegister<FieldValues>;
 }
 
-export default function InputGender({ inputRef }: IProps) {
+export default function InputGender({ register }: IProps) {
   return (
     <div className="input__wrapper">
       <label className="input-label">
         Gender
         <div className="form__switcher">
-          <input ref={inputRef} type="checkbox" className="switcher" />
+          <input type="checkbox" className="switcher" {...register('gender')} />
           <div className="knobs"></div>
         </div>
       </label>

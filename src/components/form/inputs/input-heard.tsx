@@ -1,35 +1,51 @@
+import { useState } from 'react';
+import { FieldValues, UseFormRegister } from 'react-hook-form/dist/types';
 import { v1 } from 'uuid';
-import { IInputHeard } from './inputs-list';
+import { IInputProps } from '../form-interfaces';
 
 interface IInputRadioProps {
-  inputRef: React.RefObject<HTMLInputElement>;
+  register: UseFormRegister<FieldValues>;
   name: string;
-}
-
-interface IInputHeardProps {
-  inputRef: IInputHeard;
-  validation: boolean;
+  isChecked: boolean;
+  setIsChecked: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CITES_LIST = ['yandex', 'google', 'youtube'];
 
-function InputRadio({ inputRef, name }: IInputRadioProps) {
+function InputRadio(props: IInputRadioProps): JSX.Element {
+  const { register, name, isChecked, setIsChecked } = props;
   return (
     <label className="checkbox__row">
-      <input ref={inputRef} type="radio" name="heard" className="form__radio" data-heard={name} />
+      <input
+        onClick={() => setIsChecked(true)}
+        value={name}
+        type="radio"
+        className="form__radio"
+        {...register('heard', {
+          validate: () => isChecked,
+        })}
+      />
       {name}
     </label>
   );
 }
 
-export default function InputHeard({ inputRef, validation }: IInputHeardProps): JSX.Element {
+export default function InputHeard({ register, errors }: IInputProps): JSX.Element {
+  const [isChecked, setIsChecked] = useState(false);
+
   return (
     <fieldset className="checkbox input__wrapper">
       <legend>Where you heard about us</legend>
       {CITES_LIST.map((cite) => (
-        <InputRadio inputRef={inputRef[cite]} name={cite} key={v1()} />
+        <InputRadio
+          register={register}
+          name={cite}
+          isChecked={isChecked}
+          setIsChecked={setIsChecked}
+          key={v1()}
+        />
       ))}
-      {validation || <p className="input-error">Select at least one source</p>}
+      {errors.heard && <p className="input-error">Select at least one source</p>}
     </fieldset>
   );
 }

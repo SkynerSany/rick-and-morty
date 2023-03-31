@@ -1,8 +1,6 @@
-import { useState } from 'react';
-import { IFormProps } from './form-interfaces';
+import { IForm, IFormProps } from './form-interfaces';
 import './form.scss';
 import InputHeard from './inputs/input-heard';
-import { DEFAULT_VALID_LIST, inputList } from './inputs/inputs-list';
 import InputName from './inputs/input-name';
 import InputBirthday from './inputs/input-birthday';
 import InputCountry from './inputs/input-country';
@@ -10,27 +8,36 @@ import InputGender from './inputs/input-gender';
 import InputFile from './inputs/input-file';
 import InputAccept from './inputs/input-accept';
 import { submitForm } from './form-events';
+import { FieldValues, useForm } from 'react-hook-form';
 
 export default function Form({ setForm }: IFormProps): JSX.Element {
-  const [inputValid, setInputValid] = useState(DEFAULT_VALID_LIST);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    mode: 'onChange',
+  });
+
+  const onSubmit = (data: FieldValues) => {
+    submitForm(data as IForm, setForm);
+    reset();
+  };
 
   return (
-    <form
-      ref={inputList.form}
-      onSubmit={(event) => submitForm({ event, inputList, setForm, inputValid, setInputValid })}
-      className="form"
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className="form">
       <div className="form-wrapper">
-        <InputName inputRef={inputList.name} validation={inputValid.name} />
+        <InputName register={register} errors={errors} />
         <div className="form__two-columns">
-          <InputBirthday inputRef={inputList.birthday} validation={inputValid.birthday} />
-          <InputCountry inputRef={inputList.country} validation={inputValid.country} />
-          <InputGender inputRef={inputList.gender} />
+          <InputBirthday register={register} errors={errors} />
+          <InputCountry register={register} errors={errors} />
+          <InputGender register={register} />
         </div>
-        <InputHeard inputRef={inputList.heard} validation={inputValid.heard} />
-        <InputFile inputRef={inputList.image} validation={inputValid.image} />
+        <InputHeard register={register} errors={errors} />
+        <InputFile register={register} errors={errors} />
         <button className="form-submit">Submit</button>
-        <InputAccept inputRef={inputList.accept} validation={inputValid.accept} />
+        <InputAccept register={register} errors={errors} />
       </div>
     </form>
   );

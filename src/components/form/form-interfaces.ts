@@ -1,33 +1,25 @@
-import { IInputList } from './inputs/inputs-list';
+import { FieldErrors } from 'react-hook-form/dist/types/errors';
+import { FieldValues } from 'react-hook-form/dist/types/fields';
+import { UseFormRegister } from 'react-hook-form/dist/types/form';
 
 export interface IForm {
   name: string;
   birthday: string;
   country: string;
   gender: string;
-  heard: string[];
-  image: string;
+  heard: string;
+  file: FileList;
 }
 
 export interface IFormProps {
   setForm: () => void;
 }
 
-export interface IFormState {
-  name: boolean;
-  birthday: boolean;
-  country: boolean;
-  heard: boolean;
-  image: boolean;
-  accept: boolean;
-}
-
 export interface IFormSubmitProps {
-  event: React.FormEvent;
-  inputList: IInputList;
-  setForm: () => void;
-  inputValid: IFormState;
-  setInputValid: TUseStateInput;
+  [key: string]: string;
 }
 
-export type TUseStateInput = React.Dispatch<React.SetStateAction<IFormState>>;
+export interface IInputProps {
+  register: UseFormRegister<FieldValues>;
+  errors: FieldErrors<FieldValues>;
+}

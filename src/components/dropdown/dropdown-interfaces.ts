@@ -1,4 +1,4 @@
-import { RefObject } from 'react';
+import { FieldValues, UseFormRegister } from 'react-hook-form/dist/types';
 
 export interface IDropdownState {
   list: boolean;
@@ -7,5 +7,6 @@ export interface IDropdownState {
 
 export interface IDropdownProps {
   dropdownList: string[];
-  dropdownRef: RefObject<HTMLInputElement>;
+  register: UseFormRegister<FieldValues>;
+  valid: (value: string) => boolean;
 }

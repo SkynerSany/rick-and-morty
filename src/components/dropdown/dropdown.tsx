@@ -1,26 +1,32 @@
 import { useState } from 'react';
-import { v1 as uuidv1 } from 'uuid';
+import { v1 } from 'uuid';
 import './dropdown.scss';
 import { IDropdownProps } from './dropdown-interfaces';
-import { TRefInput } from '../../basic-types';
 
-function setCurrentValue(curentRow: EventTarget, dropdownRef: TRefInput): void {
-  if (!dropdownRef.current || !(curentRow instanceof HTMLLIElement)) return;
-  dropdownRef.current.value = curentRow.dataset.dropdownRow || '';
-}
-
-export default function Dropdown({ dropdownList, dropdownRef }: IDropdownProps): JSX.Element {
+export default function Dropdown({ dropdownList, register, valid }: IDropdownProps): JSX.Element {
   const [list, setList] = useState(false);
+  const [current, setCurrent] = useState('');
 
   return (
-    <div onClick={() => setList(!list)} className="dropdown">
-      <input ref={dropdownRef} type="text" className="dropdown__current" disabled />
+    <div className="dropdown">
+      <input
+        type="text"
+        className="dropdown__current"
+        onClick={() => setList(!list)}
+        value={current}
+        {...register('country', {
+          validate: () => valid(current),
+        })}
+        readOnly
+      />
       <ul
-        onClick={(event) => setCurrentValue(event.target, dropdownRef)}
+        onClick={(event) =>
+          setCurrent((event.target as HTMLInputElement).dataset.dropdownRow || '')
+        }
         className={`dropdown__list ${list ? 'dropdown__show' : ''}`}
       >
         {dropdownList.map((row) => (
-          <li data-dropdown-row={row} key={uuidv1()}>
+          <li data-dropdown-row={row} key={v1()}>
             {row}
           </li>
         ))}
