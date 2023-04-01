@@ -1,6 +1,6 @@
 import { IInputProps } from '../form-interfaces';
 
-function isImage(fileList: FileList) {
+export function isImage(fileList: FileList) {
   if (fileList.length === 0) return false;
   if (!fileList[0].type.includes('image')) return false;
   return true;

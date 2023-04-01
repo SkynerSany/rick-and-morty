@@ -1,6 +1,6 @@
-import { IForm } from '../form/form-interfaces';
+import { IFormSubmitProps } from '../form/form-interfaces';
 
 export default interface IFormCardProps {
-  formData: IForm;
+  formData: IFormSubmitProps;
   formNumber: number;
 }

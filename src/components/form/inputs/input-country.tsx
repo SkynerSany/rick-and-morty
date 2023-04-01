@@ -3,7 +3,7 @@ import { IInputProps } from '../form-interfaces';
 
 const COUNTRY_LIST = ['Belarus', 'Russia', 'USA', 'Italy'];
 
-function isCountry(value: string) {
+export function isCountry(value: string) {
   if (value === '') return false;
   return true;
 }

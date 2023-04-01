@@ -6,7 +6,7 @@ export interface IForm {
   name: string;
   birthday: string;
   country: string;
-  gender: string;
+  gender: boolean;
   heard: string;
   file: FileList;
 }

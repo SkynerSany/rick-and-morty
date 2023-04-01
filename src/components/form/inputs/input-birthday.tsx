@@ -3,7 +3,6 @@ import { IInputProps } from '../form-interfaces';
 export function isBirthday(value: string) {
   if (value === '') return false;
   if (new Date() < new Date(value)) return false;
-  if (!new Date(value)) return false;
   return true;
 }
 

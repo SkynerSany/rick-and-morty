@@ -2,13 +2,13 @@ import { useContext, useState } from 'react';
 import { v1 } from 'uuid';
 import FormCard from '../../components/form-card/form-card';
 import Form from '../../components/form/form';
-import { IForm } from '../../components/form/form-interfaces';
+import { IFormSubmitProps } from '../../components/form/form-interfaces';
 import { AppContext } from '../../components/layout/layout';
 import './forms.scss';
 
 export default function Forms(): JSX.Element {
   const message = useContext(AppContext);
-  const [forms, setForms] = useState<IForm[]>(JSON.parse(localStorage.forms || '[]'));
+  const [forms, setForms] = useState<IFormSubmitProps[]>(JSON.parse(localStorage.forms || '[]'));
 
   function setForm(): void {
     setForms(JSON.parse(localStorage.forms));

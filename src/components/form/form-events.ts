@@ -1,6 +1,6 @@
 import { IForm, IFormSubmitProps } from './form-interfaces';
 
-function saveForm(form: IForm): IFormSubmitProps {
+export function saveForm(form: IForm): IFormSubmitProps {
   return {
     name: form.name,
     birthday: form.birthday,
@@ -11,7 +11,7 @@ function saveForm(form: IForm): IFormSubmitProps {
   };
 }
 
-function saveFormInLocal(form: IForm): void {
+export function saveFormInLocal(form: IForm): void {
   const newForm = saveForm(form);
   if (localStorage.forms) {
     localStorage.forms = JSON.stringify([...JSON.parse(localStorage.forms), newForm]);
