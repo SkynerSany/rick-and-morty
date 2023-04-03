@@ -14,10 +14,12 @@ export default function Form({ setForm }: IFormProps): JSX.Element {
   const {
     register,
     handleSubmit,
+    trigger,
     formState: { errors },
     reset,
+    setValue,
   } = useForm({
-    mode: 'onChange',
+    mode: 'onSubmit',
   });
 
   const onSubmit = (data: FieldValues) => {
@@ -31,7 +33,7 @@ export default function Form({ setForm }: IFormProps): JSX.Element {
         <InputName register={register} errors={errors} />
         <div className="form__two-columns">
           <InputBirthday register={register} errors={errors} />
-          <InputCountry register={register} errors={errors} />
+          <InputCountry register={register} errors={errors} trigger={trigger} setValue={setValue} />
           <InputGender register={register} />
         </div>
         <InputHeard register={register} errors={errors} />
