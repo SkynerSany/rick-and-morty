@@ -1,10 +1,5 @@
-import { IForm } from '../form/form-interfaces';
+import IFormCardProps from './form-card-interfaces';
 import './form-card.scss';
-
-interface IFormCardProps {
-  formData: IForm;
-  formNumber: number;
-}
 
 export default function FormCard({ formData, formNumber }: IFormCardProps): JSX.Element {
   return (
@@ -14,13 +9,13 @@ export default function FormCard({ formData, formNumber }: IFormCardProps): JSX.
         <div className="form-card__wrapper">
           <div
             className="form-card__image"
-            style={{ backgroundImage: `url(${formData.image})` }}
+            style={{ backgroundImage: `url(${formData.file})` }}
           ></div>
           <p className="form-card__text">Name: {formData.name}</p>
           <p className="form-card__text">Birthday: {formData.birthday}</p>
           <p className="form-card__text">Country: {formData.country}</p>
           <p className="form-card__text">Gender: {formData.gender}</p>
-          <p className="form-card__text">Heard from: {formData.heard.join(', ')}</p>
+          <p className="form-card__text">Heard from: {formData.heard}</p>
         </div>
       </div>
     </article>

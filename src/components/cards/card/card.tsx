@@ -1,9 +1,5 @@
 import './card.scss';
-import { ICardData } from '../card-interfaces';
-
-interface ICardProps {
-  cardData: ICardData;
-}
+import { ICardProps } from './card-interfaces';
 
 export default function Card({ cardData }: ICardProps): JSX.Element {
   return (

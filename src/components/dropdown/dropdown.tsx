@@ -1,37 +1,45 @@
-import { Component, ReactNode } from 'react';
-import { v1 as uuidv1 } from 'uuid';
+import { useRef, useState } from 'react';
+import { v1 } from 'uuid';
 import './dropdown.scss';
-import { IDropdownProps, IDropdownState } from './interfaces';
+import { IDropdownProps } from './dropdown-interfaces';
 
-export default class Dropdown extends Component<IDropdownProps, IDropdownState> {
-  constructor(props: IDropdownProps) {
-    super(props);
-    this.state = {
-      list: false,
-      currentItem: '',
-    };
+export default function Dropdown({
+  dropdownList,
+  register,
+  valid,
+  trigger,
+  setValue,
+}: IDropdownProps): JSX.Element {
+  const [list, setList] = useState(false);
+  const current = useRef('');
+
+  function setCurrent(target: EventTarget) {
+    current.current = (target as HTMLInputElement).dataset.dropdownRow || '';
+    setValue('country', current.current);
+    trigger('country');
   }
 
-  setCurrentValue(curentRow: EventTarget): void {
-    if (!this.props.dropdownRef.current || !(curentRow instanceof HTMLLIElement)) return;
-    this.props.dropdownRef.current.value = curentRow.dataset.dropdownRow || '';
-  }
-
-  render(): ReactNode {
-    return (
-      <div onClick={() => this.setState({ list: !this.state.list })} className="dropdown">
-        <input ref={this.props.dropdownRef} type="text" className="dropdown__current" disabled />
-        <ul
-          onClick={(event) => this.setCurrentValue(event.target)}
-          className={`dropdown__list ${this.state.list ? 'dropdown__show' : ''}`}
-        >
-          {this.props.dropdownList.map((row) => (
-            <li data-dropdown-row={row} key={uuidv1()}>
-              {row}
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
+  return (
+    <div className="dropdown">
+      <input
+        type="text"
+        className="dropdown__current"
+        onClick={() => setList(!list)}
+        {...register('country', {
+          validate: () => valid(current.current),
+        })}
+        readOnly
+      />
+      <ul
+        onClick={(event) => setCurrent(event.target)}
+        className={`dropdown__list ${list ? 'dropdown__show' : ''}`}
+      >
+        {dropdownList.map((row) => (
+          <li data-dropdown-row={row} key={v1()}>
+            {row}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
