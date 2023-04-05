@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { test, vi } from 'vitest';
 import { IForm } from './form-interfaces';
 import '@testing-library/jest-dom';
@@ -60,7 +60,7 @@ test('Input birthday render', async () => {
   // await new Promise((resolve) => setTimeout(() => resolve(true), 100));
   // expect(wrapper.container.querySelector('.input-error')).toBeInTheDocument();
 
-  expect(isBirthday('10-12-2024')).toBe(false);
+  expect(isBirthday('10-12-2029')).toBe(false);
   expect(isBirthday('')).toBe(false);
   expect(isBirthday('10-12-2022')).toBe(true);
 });

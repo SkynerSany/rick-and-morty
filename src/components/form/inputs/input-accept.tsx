@@ -7,7 +7,6 @@ export default function InputAccept({ register, errors }: IInputProps) {
         <input
           type="checkbox"
           className="form__radio"
-          defaultChecked={true}
           {...register('accept', {
             required: true,
           })}
