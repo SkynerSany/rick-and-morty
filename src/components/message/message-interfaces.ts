@@ -3,6 +3,8 @@ export interface IMessage {
   text: string;
 }
 
+export type IMessageFunction = (message: IMessage) => void;
+
 export interface IMessageProps {
   message: IMessage;
 }

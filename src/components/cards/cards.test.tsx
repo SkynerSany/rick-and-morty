@@ -33,7 +33,7 @@ describe('<Cards />', () => {
       value: mockFetch,
     });
 
-    const wrapper = render(<Cards />);
+    const wrapper = render(<Cards search="" />);
     expect(wrapper).toBeTruthy();
 
     await act(async () => {
@@ -48,7 +48,7 @@ describe('<Cards />', () => {
       value: mockRejectFetch,
     });
 
-    const wrapper = render(<Cards />);
+    const wrapper = render(<Cards search="" />);
     expect(wrapper).toBeTruthy();
 
     await act(async () => {

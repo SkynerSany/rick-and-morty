@@ -1,25 +1,21 @@
 import { useContext, useEffect, useState } from 'react';
 import { v1 } from 'uuid';
 import { AppContext } from '../layout/layout';
-import { ICardData } from './card-interfaces';
 import Card from './card/card';
 import './cards.scss';
+import { getCharacters } from '../api/api';
+import { ICharacter } from '../api/api-interfaces';
+import { ICardsProps } from './cards-interfaces';
 
-export default function Cards(): JSX.Element {
+export default function Cards({ search }: ICardsProps): JSX.Element {
   const message = useContext(AppContext);
-  const [cards, setCards] = useState<ICardData[]>([]);
+  const [cards, setCards] = useState<ICharacter[]>([]);
 
   useEffect(() => {
-    fetch('../../data/cardsData.json')
-      .then((response) => response.json())
-      .then((result) => setCards(result))
-      .catch((error: Error) => {
-        message({
-          type: 'error',
-          text: error.message,
-        });
-      });
-  }, [message]);
+    getCharacters.bySearch(search || '', message).then((characters) => {
+      if (characters) setCards(characters.results);
+    });
+  }, [search, message]);
 
   return (
     <div className="cards">

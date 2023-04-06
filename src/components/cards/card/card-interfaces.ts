@@ -1,5 +1,5 @@
-import { ICardData } from '../card-interfaces';
+import { ICharacter } from '../../api/api-interfaces';
 
 export interface ICardProps {
-  cardData: ICardData;
+  cardData: ICharacter;
 }
