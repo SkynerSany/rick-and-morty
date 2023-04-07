@@ -7,15 +7,27 @@ import { getCharacters } from '../api/api';
 import { ICharacter } from '../api/api-interfaces';
 import { ICardsProps } from './cards-interfaces';
 
-export default function Cards({ search }: ICardsProps): JSX.Element {
+export default function Cards({
+  search,
+  setAllPages,
+  currentPage,
+  setCurrentPage,
+}: ICardsProps): JSX.Element {
   const message = useContext(AppContext);
   const [cards, setCards] = useState<ICharacter[]>([]);
 
   useEffect(() => {
-    getCharacters.bySearch(search || '', message).then((characters) => {
-      if (characters) setCards(characters.results);
+    getCharacters.bySearch(search || '', currentPage, message).then((characters) => {
+      if (characters) {
+        setCards(characters.results);
+        setAllPages(characters.info.pages);
+      }
     });
-  }, [search, message]);
+  }, [search, currentPage, setAllPages, message]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, setCurrentPage]);
 
   return (
     <div className="cards">

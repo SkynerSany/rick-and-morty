@@ -5,7 +5,8 @@ const BASE_LINK = 'https://rickandmortyapi.com/api';
 const API_LINKS = {
   BY_PAGE: (pageNumber: number) => `${BASE_LINK}/character/?page=${pageNumber}`,
   BY_ID: (characterId: number) => `${BASE_LINK}/character/${characterId}`,
-  BY_SEARCH: (search: string) => `${BASE_LINK}/character/?name=${search}`,
+  BY_SEARCH: (search: string, pageNumber: number) =>
+    `${BASE_LINK}/character/?page=${pageNumber}&name=${search}`,
 };
 
 export const getCharacters = {
@@ -13,8 +14,12 @@ export const getCharacters = {
     getRequest(API_LINKS.BY_PAGE(pageNumber), message),
   one: (characterId: number, message: IMessageFunction): Promise<ICharacter | void> =>
     getRequest(API_LINKS.BY_ID(characterId), message),
-  bySearch: (search: string, message: IMessageFunction): Promise<ICharactersInfo | void> =>
-    getRequest(API_LINKS.BY_SEARCH(search), message),
+  bySearch: (
+    search: string,
+    pageNumber: number,
+    message: IMessageFunction
+  ): Promise<ICharactersInfo | void> =>
+    getRequest(API_LINKS.BY_SEARCH(search, pageNumber), message),
 };
 
 export function getRequest(link: string, message: IMessageFunction) {

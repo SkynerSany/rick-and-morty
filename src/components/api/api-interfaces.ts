@@ -1,8 +1,10 @@
 export interface ICharactersInfo {
-  count: number;
-  pages: number;
-  next: null | string;
-  prev: null | string;
+  info: {
+    count: number;
+    pages: number;
+    next: null | string;
+    prev: null | string;
+  };
   results: ICharacter[];
 }
 

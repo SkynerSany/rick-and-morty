@@ -1,8 +1,7 @@
 import React from 'react';
 
-export interface ICardsProps {
-  search: string;
-  setAllPages: React.Dispatch<React.SetStateAction<number>>;
+export interface IPaginationProps {
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   currentPage: number;
+  allPages: number;
 }
