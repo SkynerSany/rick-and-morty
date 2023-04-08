@@ -21,17 +21,28 @@ export default function Cards({
       if (characters) {
         setCards(characters.results);
         setAllPages(characters.info.pages);
+        return;
       }
+
+      setCards([]);
     });
-  }, [search, currentPage, setAllPages, message]);
+  }, [search, currentPage]);
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [search, setCurrentPage]);
+  }, [search]);
 
   return (
-    <div className="cards">
-      {cards.length > 0 ? cards.map((cardData) => <Card cardData={cardData} key={v1()} />) : ''}
-    </div>
+    <>
+      {cards.length > 0 ? (
+        <div className="cards">
+          {cards.map((cardData) => (
+            <Card cardData={cardData} key={v1()} />
+          ))}
+        </div>
+      ) : (
+        <p className="cards__not-found">Characters with this name is not found!</p>
+      )}
+    </>
   );
 }

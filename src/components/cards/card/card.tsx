@@ -1,9 +1,18 @@
 import './card.scss';
 import { ICardProps } from './card-interfaces';
+import { ModalContext } from '../../layout/layout';
+import { useContext } from 'react';
+import FullCard from '../full-card/full-card';
 
 export default function Card({ cardData }: ICardProps): JSX.Element {
+  const setModal = useContext(ModalContext);
+
+  function setFullCard() {
+    setModal(<FullCard cardData={cardData} />);
+  }
+
   return (
-    <article className="card">
+    <article className="card" onClick={() => setFullCard()}>
       <div className="card-wrapper">
         <figure>
           <img src={cardData.image} alt="photo" />

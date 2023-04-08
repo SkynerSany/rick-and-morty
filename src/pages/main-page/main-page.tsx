@@ -21,7 +21,15 @@ export default function Main(): JSX.Element {
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />
-        <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} allPages={allPages} />
+        {allPages > 1 ? (
+          <Pagination
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            allPages={allPages}
+          />
+        ) : (
+          ''
+        )}
       </div>
     </section>
   );
