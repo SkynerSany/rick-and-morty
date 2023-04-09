@@ -1,5 +1,5 @@
 import ContentLoader from 'react-content-loader';
-import { useResize } from '../components/hooks/use-resize';
+import { useResize } from '../hooks/use-resize';
 
 export function AllCardsLoaderSmall() {
   return (
