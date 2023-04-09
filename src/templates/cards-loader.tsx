@@ -1,7 +1,7 @@
 import ContentLoader from 'react-content-loader';
 import { useResize } from '../components/hooks/use-resize';
 
-function AllCardsLoaderSmall() {
+export function AllCardsLoaderSmall() {
   return (
     <ContentLoader width="100%" height="1240" backgroundColor="#f3f3f3" foregroundColor="#ecebeb">
       <rect x="0" y="0" width="100%" height="400" />
@@ -11,7 +11,7 @@ function AllCardsLoaderSmall() {
   );
 }
 
-function AllCardsLoaderMedium() {
+export function AllCardsLoaderMedium() {
   return (
     <ContentLoader width="100%" height="1240" backgroundColor="#f3f3f3" foregroundColor="#ecebeb">
       <rect x="0" y="0" width="49%" height="400" />
@@ -24,7 +24,7 @@ function AllCardsLoaderMedium() {
   );
 }
 
-function AllCardsLoaderLarge() {
+export function AllCardsLoaderLarge() {
   return (
     <ContentLoader width="100%" height="1200" backgroundColor="#f3f3f3" foregroundColor="#ecebeb">
       <rect x="0" y="0" width="32%" height="400" />

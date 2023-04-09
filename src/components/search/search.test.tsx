@@ -19,16 +19,19 @@ Object.defineProperty(window, 'localStorage', {
   value: localStorageMock,
 });
 
+const setSearch = () => {};
+
 describe('<Search />', () => {
   test('Search mounts properly', async () => {
-    const wrapper = render(<Search />);
+    const wrapper = render(<Search setSearch={setSearch} />);
     expect(wrapper.container).toBeInTheDocument();
   });
 
-  test('Input save in localStorage', () => {
-    render(<Search />);
+  test('Input save in localStorage', async () => {
+    render(<Search setSearch={setSearch} />);
 
-    fireEvent.change(screen.getByRole('textbox'), { target: { value: '123' } });
+    await fireEvent.change(screen.getByRole('textbox'), { target: { value: '123' } });
+    await fireEvent.click(screen.getByRole('button'));
     expect(localStorage.getItem('search')).toBe('123');
   });
 });
