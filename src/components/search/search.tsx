@@ -1,23 +1,35 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import './search.scss';
+import { ISearchProps } from './search-interfaces';
 
-export default function Search(): JSX.Element {
-  const [searchText, setSearchText] = useState<string>(localStorage.search || '');
+export default function Search({ setSearch }: ISearchProps): JSX.Element {
+  const inputSearch = useRef<HTMLInputElement | null>(null);
 
-  useMemo(() => {
-    localStorage.setItem('search', searchText);
-  }, [searchText]);
+  function saveSearch() {
+    const text = inputSearch!.current!.value;
+    localStorage.setItem('search', text || '');
+    setSearch(text);
+  }
+
+  function checkEnter(key: string) {
+    if (key !== 'Enter') return;
+    saveSearch();
+  }
+
+  useEffect(() => {
+    inputSearch!.current!.value = localStorage.getItem('search') || '';
+  }, []);
 
   return (
     <div className="search">
       <input
-        onChange={(event) => setSearchText(event.target.value)}
-        value={searchText}
+        ref={inputSearch}
+        onKeyUp={(e) => checkEnter(e.key)}
         type="text"
         placeholder="Write something"
         className="search__input"
       />
-      <button type="submit" className="search__button">
+      <button onClick={() => saveSearch()} type="submit" className="search__button">
         Search
       </button>
     </div>

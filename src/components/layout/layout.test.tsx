@@ -8,7 +8,7 @@ const errors: JSX.Element[] = [];
 test('Layout component is load', () => {
   const wrapper = render(
     <MemoryRouter>
-      <Layout errors={errors} />
+      <Layout errors={errors} modal={null} />
     </MemoryRouter>
   );
 

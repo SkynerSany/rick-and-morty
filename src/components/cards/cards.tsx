@@ -1,29 +1,53 @@
 import { useContext, useEffect, useState } from 'react';
 import { v1 } from 'uuid';
 import { AppContext } from '../layout/layout';
-import { ICardData } from './card-interfaces';
 import Card from './card/card';
 import './cards.scss';
+import { getCharacters } from '../api/api';
+import { ICharacter } from '../api/api-interfaces';
+import { ICardsProps } from './cards-interfaces';
+import { AllCardsLoader } from '../../templates/cards-loader';
 
-export default function Cards(): JSX.Element {
+export default function Cards({
+  search,
+  setAllPages,
+  currentPage,
+  setCurrentPage,
+}: ICardsProps): JSX.Element {
   const message = useContext(AppContext);
-  const [cards, setCards] = useState<ICardData[]>([]);
+  const [cards, setCards] = useState<ICharacter[]>([]);
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
-    fetch('../../data/cardsData.json')
-      .then((response) => response.json())
-      .then((result) => setCards(result))
-      .catch((error: Error) => {
-        message({
-          type: 'error',
-          text: error.message,
-        });
-      });
-  }, [message]);
+    setLoader(true);
+    getCharacters.bySearch(search || '', currentPage, message).then((characters) => {
+      if (characters) {
+        setLoader(false);
+        setCards(characters.results);
+        setAllPages(characters.info.pages);
+        return;
+      }
+
+      setLoader(false);
+      setCards([]);
+      setAllPages(1);
+    });
+  }, [search, currentPage]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search]);
 
   return (
-    <div className="cards">
-      {cards.length > 0 ? cards.map((cardData) => <Card cardData={cardData} key={v1()} />) : ''}
-    </div>
+    <>
+      {loader && <AllCardsLoader />}
+      {cards.length > 0 ? (
+        <div className="cards">
+          {cards.map((cardData) => loader || <Card cardData={cardData} key={v1()} />)}
+        </div>
+      ) : (
+        <p className="cards__not-found">Characters with this name is not found!</p>
+      )}
+    </>
   );
 }

@@ -1,11 +1,26 @@
 import { describe, test, expect } from 'vitest';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import Card from './card';
 
 const cardData = {
-  title: 'This is some title',
-  photo: 'https://picsum.photos/id/1011/800/450',
-  text: 'Curabitur convallis ac quam vitae laoreet. Nulla mauris ante, euismod sed lacus sit amet, congue bibendum eros. Etiam mattis lobortis porta. Vestibulum ultrices iaculis enim imperdiet egestas.',
+  id: 1,
+  name: 'Alex',
+  status: 'Live',
+  species: 'Toxic',
+  type: 'Animal',
+  gender: 'Man',
+  origin: {
+    name: 'Alex Prif',
+    url: 'https://asd.ru',
+  },
+  location: {
+    name: 'Russia',
+    url: 'https://asd.ru',
+  },
+  image: 'https://asd.ru',
+  episode: ['https://asd.ru', 'https://asd.ru'],
+  url: 'https://asd.ru',
+  created: '12.04.2023',
 };
 
 describe('<Card />', () => {
@@ -14,9 +29,17 @@ describe('<Card />', () => {
     expect(wrapper).toBeTruthy();
 
     const title = wrapper.container.querySelector('.card__title');
-    expect(title?.textContent).toBe(cardData.title);
+    expect(title?.textContent).toBe(cardData.name);
 
     const desc = wrapper.container.querySelector('.card__desc');
-    expect(desc?.textContent).toBe(cardData.text);
+    expect(desc?.textContent).toBe(cardData.species);
+  });
+
+  test('Open full', async () => {
+    const wrapper = render(<Card cardData={cardData} />);
+
+    const card = wrapper.container.querySelector('.card');
+    await fireEvent.click(card!);
+    expect(wrapper.container.querySelector('.full-card')).toBe(null);
   });
 });
