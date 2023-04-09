@@ -11,6 +11,11 @@ export default function Search({ setSearch }: ISearchProps): JSX.Element {
     setSearch(text);
   }
 
+  function checkEnter(key: string) {
+    if (key !== 'Enter') return;
+    saveSearch();
+  }
+
   useEffect(() => {
     inputSearch!.current!.value = localStorage.getItem('search') || '';
   }, []);
@@ -19,6 +24,7 @@ export default function Search({ setSearch }: ISearchProps): JSX.Element {
     <div className="search">
       <input
         ref={inputSearch}
+        onKeyUp={(e) => checkEnter(e.key)}
         type="text"
         placeholder="Write something"
         className="search__input"

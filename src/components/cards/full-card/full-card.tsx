@@ -6,24 +6,30 @@ import { IEpisodeData } from './full-card-interfaces';
 
 export default function FullCard({ cardData }: ICardProps): JSX.Element {
   const [episodes, setEpisodes] = useState<PromiseFulfilledResult<IEpisodeData>[]>([]);
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
+    setLoader(true);
     const episodesData: Promise<IEpisodeData>[] = cardData.episode.map((episode) =>
       fetch(episode).then((result) => result.json())
     );
-    Promise.allSettled(episodesData).then((episodeValues) =>
+    Promise.allSettled(episodesData).then((episodeValues) => {
       setEpisodes(
         episodeValues.filter(
           (episode) => episode.status === 'fulfilled'
         ) as PromiseFulfilledResult<IEpisodeData>[]
-      )
-    );
+      );
+
+      setLoader(false);
+    });
   }, []);
 
   return (
     <div className="full-card">
       <div className="full-card__row">
-        <img src={cardData.image} alt={cardData.name} className="full-card__image" />
+        <figure className="loading">
+          <img src={cardData.image} alt={cardData.name} className="full-card__image" />
+        </figure>
         <ul className="full-card__base-info">
           <li>
             <span>Name: </span>
@@ -49,12 +55,15 @@ export default function FullCard({ cardData }: ICardProps): JSX.Element {
       </div>
       <p className="full-card__episodes-title">Episodes:</p>
       <ul className="full-card__episodes">
-        {episodes.map((episode, i) => (
-          <li key={v1()}>
-            {i + 1}.<span>{episode.value.episode}</span>
-            <span>{episode.value.name}</span>
-          </li>
-        ))}
+        {episodes.map(
+          (episode, i) =>
+            loader || (
+              <li key={v1()}>
+                {i + 1}.<span>{episode.value.episode}</span>
+                <span>{episode.value.name}</span>
+              </li>
+            )
+        )}
       </ul>
     </div>
   );

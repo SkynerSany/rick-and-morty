@@ -14,7 +14,7 @@ export default function Card({ cardData }: ICardProps): JSX.Element {
   return (
     <article className="card" onClick={() => setFullCard()}>
       <div className="card-wrapper">
-        <figure>
+        <figure className="loading">
           <img src={cardData.image} alt="photo" />
         </figure>
         <div className="card-body">
