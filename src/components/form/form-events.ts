@@ -10,17 +10,3 @@ export function saveForm(form: IForm): IFormSubmitProps {
     file: URL.createObjectURL(form.file[0]),
   };
 }
-
-export function saveFormInLocal(form: IForm): void {
-  const newForm = saveForm(form);
-  if (localStorage.forms) {
-    localStorage.forms = JSON.stringify([...JSON.parse(localStorage.forms), newForm]);
-  } else {
-    localStorage.setItem('forms', JSON.stringify([newForm]));
-  }
-}
-
-export function submitForm(form: IForm, setForm: () => void): void {
-  saveFormInLocal(form);
-  setForm();
-}

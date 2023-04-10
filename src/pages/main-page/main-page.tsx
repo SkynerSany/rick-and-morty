@@ -6,7 +6,7 @@ import Pagination from '../../components/pagination/pagination';
 
 export default function Main(): JSX.Element {
   document.title = 'RS React';
-  const [search, setSearch] = useState(localStorage.getItem('search') || '');
+  // const [search, setSearch] = useState(localStorage.getItem('search') || '');
   const [allPages, setAllPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -14,9 +14,8 @@ export default function Main(): JSX.Element {
     <section className="main">
       <div className="wrapper">
         <h2 className="page-title">Main</h2>
-        <Search setSearch={setSearch} />
+        <Search />
         <Cards
-          search={search}
           setAllPages={setAllPages}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}

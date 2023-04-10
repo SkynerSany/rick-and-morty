@@ -1,14 +1,17 @@
 import { useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import './search.scss';
-import { ISearchProps } from './search-interfaces';
+import { RootState } from '../../redux/store';
+import { setSearch } from '../../redux/reducers';
 
-export default function Search({ setSearch }: ISearchProps): JSX.Element {
+export default function Search(): JSX.Element {
   const inputSearch = useRef<HTMLInputElement | null>(null);
+  const search = useSelector((state: RootState) => state.search);
+  const dispatch = useDispatch();
 
   function saveSearch() {
     const text = inputSearch!.current!.value;
-    localStorage.setItem('search', text || '');
-    setSearch(text);
+    dispatch(setSearch(text));
   }
 
   function checkEnter(key: string) {
@@ -17,7 +20,7 @@ export default function Search({ setSearch }: ISearchProps): JSX.Element {
   }
 
   useEffect(() => {
-    inputSearch!.current!.value = localStorage.getItem('search') || '';
+    inputSearch!.current!.value = search;
   }, []);
 
   return (

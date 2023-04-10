@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import { v1 as uuidv1 } from 'uuid';
 import './app.scss';
 import Layout, { AppContext, ModalContext } from '../layout/layout';
@@ -9,6 +10,7 @@ import { useState } from 'react';
 import Message from '../message/message';
 import Forms from '../../pages/forms/forms';
 import { IMessage } from '../message/message-interfaces';
+import store from '../../redux/store';
 
 export default function App(): JSX.Element {
   const [messages, setMessages] = useState<IMessage[]>([]);
@@ -36,14 +38,16 @@ export default function App(): JSX.Element {
   return (
     <AppContext.Provider value={setMessage}>
       <ModalContext.Provider value={createModal}>
-        <Routes>
-          <Route path="/" element={<Layout errors={createMessage()} modal={modal} />}>
-            <Route index element={<Main />} />
-            <Route path="forms" element={<Forms />} />
-            <Route path="about" element={<About />} />
-            <Route path="*" element={<ErrorPage />} />
-          </Route>
-        </Routes>
+        <Provider store={store}>
+          <Routes>
+            <Route path="/" element={<Layout errors={createMessage()} modal={modal} />}>
+              <Route index element={<Main />} />
+              <Route path="forms" element={<Forms />} />
+              <Route path="about" element={<About />} />
+              <Route path="*" element={<ErrorPage />} />
+            </Route>
+          </Routes>
+        </Provider>
       </ModalContext.Provider>
     </AppContext.Provider>
   );
