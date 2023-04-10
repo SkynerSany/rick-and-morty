@@ -1,10 +1,12 @@
-import { useContext } from 'react';
-import { IModalProps } from './modal-interfaces';
 import './modal.scss';
-import { ModalContext } from '../layout/layout';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeModal } from '../../redux/reducers';
+import { RootState } from '../../redux/store';
 
-export default function Modal({ modalContent }: IModalProps) {
-  const setModal = useContext(ModalContext);
+export default function Modal() {
+  const dispatch = useDispatch();
+  const modalContent = useSelector((state: RootState) => state.modal);
+
   function closeModal(target: EventTarget) {
     if (
       target instanceof HTMLElement &&
@@ -12,7 +14,8 @@ export default function Modal({ modalContent }: IModalProps) {
       target.className !== 'modal__close'
     )
       return;
-    setModal(null);
+
+    dispatch(removeModal());
   }
 
   return (

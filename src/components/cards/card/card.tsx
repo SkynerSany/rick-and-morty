@@ -1,14 +1,14 @@
 import './card.scss';
 import { ICardProps } from './card-interfaces';
-import { ModalContext } from '../../layout/layout';
-import { useContext } from 'react';
 import FullCard from '../full-card/full-card';
+import { useDispatch } from 'react-redux';
+import { setModal } from '../../../redux/reducers';
 
 export default function Card({ cardData }: ICardProps): JSX.Element {
-  const setModal = useContext(ModalContext);
+  const dispatch = useDispatch();
 
   function setFullCard() {
-    setModal(<FullCard cardData={cardData} />);
+    dispatch(setModal(<FullCard cardData={cardData} />));
   }
 
   return (

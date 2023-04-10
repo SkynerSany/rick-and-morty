@@ -3,12 +3,10 @@ import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
 import Layout from './layout';
 
-const errors: JSX.Element[] = [];
-
 test('Layout component is load', () => {
   const wrapper = render(
     <MemoryRouter>
-      <Layout errors={errors} modal={null} />
+      <Layout />
     </MemoryRouter>
   );
 

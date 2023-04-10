@@ -1,6 +1,5 @@
 import { FieldValues, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { useContext } from 'react';
 import { IForm } from './form-interfaces';
 import './form.scss';
 import InputHeard from './inputs/input-heard';
@@ -11,11 +10,9 @@ import InputGender from './inputs/input-gender';
 import InputFile from './inputs/input-file';
 import InputAccept from './inputs/input-accept';
 import { saveForm } from './form-events';
-import { addForm } from '../../redux/reducers';
-import { AppContext } from '../layout/layout';
+import { addForm, setMessage } from '../../redux/reducers';
 
 export default function Form(): JSX.Element {
-  const message = useContext(AppContext);
   const dispatch = useDispatch();
   const {
     register,
@@ -30,10 +27,12 @@ export default function Form(): JSX.Element {
 
   const onSubmit = (data: FieldValues) => {
     dispatch(addForm(saveForm(data as IForm)));
-    message({
-      type: 'info',
-      text: 'Form has been submited',
-    });
+    dispatch(
+      setMessage({
+        type: 'info',
+        text: 'Form has been submited',
+      })
+    );
     reset();
   };
 

@@ -1,7 +1,6 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { v1 } from 'uuid';
-import { AppContext } from '../layout/layout';
 import Card from './card/card';
 import './cards.scss';
 import { getCharacters } from '../api/api';
@@ -15,14 +14,13 @@ export default function Cards({
   currentPage,
   setCurrentPage,
 }: ICardsProps): JSX.Element {
-  const message = useContext(AppContext);
   const search = useSelector((state: RootState) => state.search);
   const [cards, setCards] = useState<ICharacter[]>([]);
   const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     setLoader(true);
-    getCharacters.bySearch(search, currentPage, message).then((characters) => {
+    getCharacters.bySearch(search, currentPage).then((characters) => {
       if (characters) {
         setLoader(false);
         setCards(characters.results);
