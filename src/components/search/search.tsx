@@ -6,7 +6,7 @@ import { setSearch } from '../../redux/reducers';
 
 export default function Search(): JSX.Element {
   const inputSearch = useRef<HTMLInputElement | null>(null);
-  const search = useSelector((state: RootState) => state.search);
+  const search = useSelector((state: RootState) => state.store.search);
   const dispatch = useDispatch();
 
   function saveSearch() {

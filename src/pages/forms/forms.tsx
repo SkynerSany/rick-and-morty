@@ -6,7 +6,7 @@ import { RootState } from '../../redux/store';
 import './forms.scss';
 
 export default function Forms(): JSX.Element {
-  const forms = useSelector((state: RootState) => state.forms);
+  const forms = useSelector((state: RootState) => state.store.forms);
   document.title = 'Forms';
 
   return (

@@ -1,4 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { combineReducers, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { api } from '../components/api/api';
+import { ICharacter } from '../components/api/api-interfaces';
 import { IFormSubmitProps } from '../components/form/form-interfaces';
 import { IMessage } from '../components/message/message-interfaces';
 
@@ -7,6 +9,7 @@ interface IState {
   forms: IFormSubmitProps[];
   messages: IMessage[];
   modal: JSX.Element | null;
+  cards: ICharacter[];
 }
 
 const initialState: IState = {
@@ -14,6 +17,7 @@ const initialState: IState = {
   forms: [],
   messages: [],
   modal: null,
+  cards: [],
 };
 
 const appSlice = createSlice({
@@ -23,14 +27,17 @@ const appSlice = createSlice({
     setSearch: (state, action: PayloadAction<string>) => {
       state.search = action.payload;
     },
+    setCards: (state, action: PayloadAction<ICharacter[]>) => {
+      state.cards = [...action.payload];
+    },
     addForm: (state, action: PayloadAction<IFormSubmitProps>) => {
       state.forms.push(action.payload);
     },
     setMessage: (state, action: PayloadAction<IMessage>) => {
       state.messages.push(action.payload);
-      setTimeout(() => {
-        state.messages = state.messages.filter((_, i) => 0 !== i);
-      }, 3000);
+    },
+    removeMessage: (state) => {
+      state.messages.shift();
     },
     setModal: (state, action: PayloadAction<JSX.Element | null>) => {
       state.modal = action.payload;
@@ -43,5 +50,11 @@ const appSlice = createSlice({
 
 const { actions, reducer } = appSlice;
 
-export const { setSearch, addForm, setMessage, setModal, removeModal } = actions;
-export default reducer;
+const rootReducer = combineReducers({
+  store: reducer,
+  [api.reducerPath]: api.reducer,
+});
+
+export const { setSearch, addForm, setMessage, setModal, removeModal, removeMessage, setCards } =
+  actions;
+export default rootReducer;

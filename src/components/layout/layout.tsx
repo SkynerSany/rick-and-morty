@@ -1,4 +1,3 @@
-import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Footer from '../footer/footer';
 import Header from '../header/header';
@@ -10,8 +9,8 @@ import { v1 } from 'uuid';
 import Message from '../message/message';
 
 export default function Layout() {
-  const messages = useSelector((state: RootState) => state.messages);
-  const modal = useSelector((state: RootState) => state.modal);
+  const messages = useSelector((state: RootState) => state.store.messages);
+  const modal = useSelector((state: RootState) => state.store.modal);
 
   return (
     <>

@@ -5,7 +5,7 @@ import { RootState } from '../../redux/store';
 
 export default function Modal() {
   const dispatch = useDispatch();
-  const modalContent = useSelector((state: RootState) => state.modal);
+  const modalContent = useSelector((state: RootState) => state.store.modal);
 
   function closeModal(target: EventTarget) {
     if (

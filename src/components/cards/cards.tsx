@@ -1,38 +1,42 @@
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { v1 } from 'uuid';
 import Card from './card/card';
 import './cards.scss';
-import { getCharacters } from '../api/api';
-import { ICharacter } from '../api/api-interfaces';
 import { ICardsProps } from './cards-interfaces';
 import { AllCardsLoader } from '../../templates/cards-loader';
 import { RootState } from '../../redux/store';
+import { setCards, setMessage } from '../../redux/reducers';
+import { api } from '../api/api';
 
 export default function Cards({
   setAllPages,
   currentPage,
   setCurrentPage,
 }: ICardsProps): JSX.Element {
-  const search = useSelector((state: RootState) => state.search);
-  const [cards, setCards] = useState<ICharacter[]>([]);
-  const [loader, setLoader] = useState(false);
+  const search = useSelector((state: RootState) => state.store.search);
+  const cards = useSelector((state: RootState) => state.store.cards);
+  const dispatch = useDispatch();
+  const { data, error, isFetching } = api.useGetCharactersQuery({ search, currentPage });
 
   useEffect(() => {
-    setLoader(true);
-    getCharacters.bySearch(search, currentPage).then((characters) => {
-      if (characters) {
-        setLoader(false);
-        setCards(characters.results);
-        setAllPages(characters.info.pages);
-        return;
-      }
+    if (!error && data && !isFetching) {
+      dispatch(setCards(data.results));
+      setAllPages(data.info.pages);
+      return;
+    }
 
-      setLoader(false);
-      setCards([]);
+    if (error) {
+      dispatch(
+        setMessage({
+          type: 'error',
+          text: 'Characters is not found!',
+        })
+      );
+      dispatch(setCards([]));
       setAllPages(1);
-    });
-  }, [search, currentPage]);
+    }
+  }, [data, error, isFetching]);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -40,10 +44,10 @@ export default function Cards({
 
   return (
     <>
-      {loader && <AllCardsLoader />}
+      {isFetching && <AllCardsLoader />}
       {cards.length > 0 ? (
         <div className="cards">
-          {cards.map((cardData) => loader || <Card cardData={cardData} key={v1()} />)}
+          {cards.map((cardData) => isFetching || <Card cardData={cardData} key={v1()} />)}
         </div>
       ) : (
         <p className="cards__not-found">Characters with this name is not found!</p>
