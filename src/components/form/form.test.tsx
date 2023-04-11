@@ -1,42 +1,28 @@
 import { render } from '@testing-library/react';
-import { test, vi } from 'vitest';
-import { IForm } from './form-interfaces';
+import { test } from 'vitest';
 import '@testing-library/jest-dom';
 import Form from './form';
 import { isBirthday } from './inputs/input-birthday';
 import { isImage } from './inputs/input-file';
-
-const localStorageMock = (() => {
-  const store: { [key: string]: string } = {};
-  return {
-    setItem: vi.fn((key: string, value: string) => {
-      store[key] = value.toString();
-    }),
-    getItem: vi.fn((key: string) => {
-      return store[key] || null;
-    }),
-    getStore: () => store,
-  };
-})();
-
-Object.defineProperty(window, 'localStorage', {
-  value: localStorageMock,
-});
-
-const mockSetForm = () => {
-  const state: { forms: IForm[] } = {
-    forms: [],
-  };
-  state.forms = JSON.parse(localStorage.forms);
-};
+import store from '../../redux/store';
+import { Provider } from 'react-redux';
+import { saveForm } from './form-events';
 
 test('Form render', () => {
-  const wrapper = render(<Form setForm={mockSetForm} />);
+  const wrapper = render(
+    <Provider store={store}>
+      <Form />
+    </Provider>
+  );
   expect(wrapper.container.querySelector('.form')).toBeInTheDocument();
 });
 
 test('Input name render', async () => {
-  const wrapper = render(<Form setForm={mockSetForm} />);
+  const wrapper = render(
+    <Provider store={store}>
+      <Form />
+    </Provider>
+  );
 
   expect(wrapper.getByText('Your name')).toBeInTheDocument();
 
@@ -45,7 +31,11 @@ test('Input name render', async () => {
 });
 
 test('Input birthday render', async () => {
-  const wrapper = render(<Form setForm={mockSetForm} />);
+  const wrapper = render(
+    <Provider store={store}>
+      <Form />
+    </Provider>
+  );
 
   expect(wrapper.getByText('Your birthday')).toBeInTheDocument();
 
@@ -58,7 +48,11 @@ test('Input birthday render', async () => {
 });
 
 test('Input file render', async () => {
-  const wrapper = render(<Form setForm={mockSetForm} />);
+  const wrapper = render(
+    <Provider store={store}>
+      <Form />
+    </Provider>
+  );
   const input = wrapper.container.querySelector('.form__file');
   if (!(input instanceof HTMLInputElement)) return;
 
@@ -79,14 +73,51 @@ test('Input file render', async () => {
 });
 
 test('Input heard render', async () => {
-  const wrapper = render(<Form setForm={mockSetForm} />);
+  const wrapper = render(
+    <Provider store={store}>
+      <Form />
+    </Provider>
+  );
   const input = wrapper.container.querySelector('.checkbox');
   if (!(input instanceof HTMLInputElement)) return;
   expect(input).toBeInTheDocument();
 });
 
 test('Input accept render', async () => {
-  const wrapper = render(<Form setForm={mockSetForm} />);
-
+  const wrapper = render(
+    <Provider store={store}>
+      <Form />
+    </Provider>
+  );
   expect(wrapper.container.querySelector('.checkbox__accept')).toBeInTheDocument();
+});
+
+test('Form events', async () => {
+  const fileList = new DataTransfer();
+  const file = await fetch('https://rickandmortyapi.com/api/character/avatar/2.jpeg').then(
+    (result) => result.blob()
+  );
+  fileList.files[0] = file as File;
+  fileList.items.add(file as File);
+
+  const formCardDataResult = {
+    name: 'Alex Breed',
+    birthday: '2023-02-22',
+    country: 'Belarus',
+    gender: 'Male',
+    heard: 'YouTube',
+    file: URL.createObjectURL(fileList.files[0]),
+  };
+
+  const formCardDatainput = {
+    name: 'Alex Breed',
+    birthday: '2023-02-22',
+    country: 'Belarus',
+    gender: false,
+    heard: 'YouTube',
+    file: fileList.files,
+  };
+
+  const formData = saveForm(formCardDatainput);
+  expect(formData.gender).toBe(formCardDataResult.gender);
 });

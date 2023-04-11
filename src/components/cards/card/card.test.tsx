@@ -1,6 +1,8 @@
 import { describe, test, expect } from 'vitest';
 import { fireEvent, render } from '@testing-library/react';
 import Card from './card';
+import store from '../../../redux/store';
+import { Provider } from 'react-redux';
 
 const cardData = {
   id: 1,
@@ -25,7 +27,11 @@ const cardData = {
 
 describe('<Card />', () => {
   test('Card mounts properly', () => {
-    const wrapper = render(<Card cardData={cardData} />);
+    const wrapper = render(
+      <Provider store={store}>
+        <Card cardData={cardData} />
+      </Provider>
+    );
     expect(wrapper).toBeTruthy();
 
     const title = wrapper.container.querySelector('.card__title');
@@ -36,7 +42,11 @@ describe('<Card />', () => {
   });
 
   test('Open full', async () => {
-    const wrapper = render(<Card cardData={cardData} />);
+    const wrapper = render(
+      <Provider store={store}>
+        <Card cardData={cardData} />
+      </Provider>
+    );
 
     const card = wrapper.container.querySelector('.card');
     await fireEvent.click(card!);

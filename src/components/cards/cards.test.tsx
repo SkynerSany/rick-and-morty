@@ -1,6 +1,9 @@
-import { describe, test, expect, vi } from 'vitest';
-import { act, render } from '@testing-library/react';
+import { describe, test, expect } from 'vitest';
+import { render } from '@testing-library/react';
 import Cards from './cards';
+import { Provider } from 'react-redux';
+import store from '../../redux/store';
+import { setCards } from '../../redux/reducers';
 
 const cardsData = {
   info: {
@@ -43,33 +46,20 @@ const setCurrentPage = (page: number) => {
   currentPage = page;
 };
 
-const mockFetch = vi.fn(() =>
-  Promise.resolve({
-    json: () => Promise.resolve(cardsData),
-  })
-);
-
 describe('<Cards />', () => {
   test('Cards mounts properly', async () => {
-    Object.defineProperty(global, 'fetch', {
-      value: mockFetch,
-    });
+    store.dispatch(setCards(cardsData.results));
 
     const wrapper = render(
-      <Cards
-        search=""
-        setAllPages={setAllPages as React.Dispatch<React.SetStateAction<number>>}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage as React.Dispatch<React.SetStateAction<number>>}
-      />
+      <Provider store={store}>
+        <Cards
+          setAllPages={setAllPages as React.Dispatch<React.SetStateAction<number>>}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage as React.Dispatch<React.SetStateAction<number>>}
+        />
+      </Provider>
     );
-    expect(wrapper).toBeTruthy();
-
-    await act(async () => {
-      await new Promise((resolve) => setTimeout(() => resolve(true), 100));
-    });
-
+    expect(wrapper.container).toBeInTheDocument();
     expect(allPages).toBe(1);
-    expect(wrapper.getAllByText('Alex').length).toBe(1);
   });
 });

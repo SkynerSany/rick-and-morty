@@ -2,11 +2,15 @@ import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
 import Layout from './layout';
+import store from '../../redux/store';
+import { Provider } from 'react-redux';
 
 test('Layout component is load', () => {
   const wrapper = render(
     <MemoryRouter>
-      <Layout />
+      <Provider store={store}>
+        <Layout />
+      </Provider>
     </MemoryRouter>
   );
 
