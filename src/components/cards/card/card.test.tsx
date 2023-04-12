@@ -1,5 +1,6 @@
 import { describe, test, expect } from 'vitest';
 import { fireEvent, render } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import Card from './card';
 import store from '../../../redux/store';
 import { Provider } from 'react-redux';

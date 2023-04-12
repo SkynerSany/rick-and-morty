@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react';
+import { test, expect } from 'vitest';
 import '@testing-library/jest-dom';
 import { AllCardsLoaderLarge, AllCardsLoaderMedium, AllCardsLoaderSmall } from './cards-loader';
 

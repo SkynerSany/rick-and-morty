@@ -1,4 +1,6 @@
 import { render } from '@testing-library/react';
+import { test, expect } from 'vitest';
+import '@testing-library/jest-dom';
 import { act } from 'react-dom/test-utils';
 import { Provider } from 'react-redux';
 import { addForm } from '../../redux/reducers';

@@ -1,4 +1,5 @@
 import { fireEvent, render } from '@testing-library/react';
+import { test, expect } from 'vitest';
 import '@testing-library/jest-dom';
 import Modal from './modal';
 import store from '../../redux/store';

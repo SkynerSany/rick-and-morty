@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { test, expect } from 'vitest';
 import Dropdown from './dropdown';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';

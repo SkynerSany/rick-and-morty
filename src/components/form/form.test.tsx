@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import { test } from 'vitest';
+import { test, expect } from 'vitest';
 import '@testing-library/jest-dom';
 import Form from './form';
 import { isBirthday } from './inputs/input-birthday';

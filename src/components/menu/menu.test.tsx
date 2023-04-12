@@ -1,4 +1,6 @@
 import { render } from '@testing-library/react';
+import { test, expect } from 'vitest';
+import '@testing-library/jest-dom';
 import { MemoryRouter } from 'react-router-dom';
 import Menu from './menu';
 
