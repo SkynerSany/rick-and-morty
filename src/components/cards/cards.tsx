@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { v1 } from 'uuid';
-import '@testing-library/jest-dom';
 import Card from './card/card';
 import './cards.scss';
 import { ICardsProps } from './cards-interfaces';
