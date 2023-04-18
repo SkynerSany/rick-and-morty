@@ -21,7 +21,7 @@ export default function Layout() {
           ? messages.map((message) => <Message message={message} key={v1()} />)
           : ''}
       </div>
-      {modal ? <Modal /> : ''}
+      {modal.type ? <Modal /> : ''}
       <Footer />
     </>
   );

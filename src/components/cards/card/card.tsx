@@ -1,6 +1,5 @@
 import './card.scss';
 import { ICardProps } from './card-interfaces';
-import FullCard from '../full-card/full-card';
 import { useDispatch } from 'react-redux';
 import { setModal } from '../../../redux/reducers';
 
@@ -8,7 +7,12 @@ export default function Card({ cardData }: ICardProps): JSX.Element {
   const dispatch = useDispatch();
 
   function setFullCard() {
-    dispatch(setModal(<FullCard cardData={cardData} />));
+    dispatch(
+      setModal({
+        type: 'fullCard',
+        data: cardData,
+      })
+    );
   }
 
   return (

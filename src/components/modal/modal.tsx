@@ -2,12 +2,18 @@ import './modal.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeModal } from '../../redux/reducers';
 import { RootState } from '../../redux/store';
+import FullCard from './full-card/full-card';
+import { ICharacter } from '../api/api-interfaces';
 
-export default function Modal() {
+export default function Modal(): JSX.Element {
   const dispatch = useDispatch();
   const modalContent = useSelector((state: RootState) => state.store.modal);
 
-  function closeModal(target: EventTarget) {
+  const modalData = {
+    fullCard: <FullCard cardData={modalContent.data as ICharacter} />,
+  };
+
+  function closeModal(target: EventTarget): void {
     if (
       target instanceof HTMLElement &&
       target.className !== 'modal' &&
@@ -21,7 +27,7 @@ export default function Modal() {
   return (
     <article className="modal" onClick={(e) => closeModal(e.target)}>
       <button className="modal__close">X</button>
-      {modalContent}
+      {modalContent.type ? modalData[modalContent.type] : ''}
     </article>
   );
 }

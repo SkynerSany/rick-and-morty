@@ -1,8 +1,8 @@
 import { v1 } from 'uuid';
-import { ICardProps } from '../card/card-interfaces';
 import './full-card.scss';
 import { useEffect, useState } from 'react';
 import { IEpisodeData } from './full-card-interfaces';
+import { ICardProps } from '../../cards/card/card-interfaces';
 
 export default function FullCard({ cardData }: ICardProps): JSX.Element {
   const [episodes, setEpisodes] = useState<PromiseFulfilledResult<IEpisodeData>[]>([]);

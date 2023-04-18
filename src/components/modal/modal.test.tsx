@@ -7,6 +7,27 @@ import { Provider } from 'react-redux';
 import { setModal } from '../../redux/reducers';
 import { act } from 'react-dom/test-utils';
 
+const cardData = {
+  id: 1,
+  name: 'Alex',
+  status: 'Live',
+  species: 'Toxic',
+  type: 'Animal',
+  gender: 'Man',
+  origin: {
+    name: 'Alex Prif',
+    url: 'https://asd.ru',
+  },
+  location: {
+    name: 'Russia',
+    url: 'https://asd.ru',
+  },
+  image: 'https://asd.ru',
+  episode: ['https://asd.ru', 'https://asd.ru'],
+  url: 'https://asd.ru',
+  created: '12.04.2023',
+};
+
 test('Modal component is load', async () => {
   const wrapper = render(
     <Provider store={store}>
@@ -15,11 +36,16 @@ test('Modal component is load', async () => {
   );
 
   act(() => {
-    store.dispatch(setModal(<p>Hello</p>));
+    store.dispatch(
+      setModal({
+        type: 'fullCard',
+        data: cardData,
+      })
+    );
   });
 
   await new Promise((resolve) => setTimeout(() => resolve(true), 100));
-  expect(wrapper.getByText('Hello')).toBeInTheDocument();
+  expect(wrapper.getByText('Man')).toBeInTheDocument();
 });
 
 test('Modal component is closed om overlay', async () => {
@@ -50,10 +76,15 @@ test('Modal component is not closed', async () => {
   );
 
   act(() => {
-    store.dispatch(setModal(<p>Hello</p>));
+    store.dispatch(
+      setModal({
+        type: 'fullCard',
+        data: cardData,
+      })
+    );
   });
 
   await new Promise((resolve) => setTimeout(() => resolve(true), 100));
-  await fireEvent.click(wrapper.getByText('Hello'));
+  await fireEvent.click(wrapper.getByText('Man'));
   expect(wrapper.container.querySelector('.modal')).toBeInTheDocument();
 });

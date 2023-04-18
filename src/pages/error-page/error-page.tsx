@@ -1,8 +1,6 @@
 import './error-page.scss';
 
 export default function ErrorPage(): JSX.Element {
-  document.title = '404';
-
   return (
     <div className="error-page">
       <div className="wrapper center-loc">

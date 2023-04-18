@@ -4,11 +4,16 @@ import { ICharacter } from '../components/api/api-interfaces';
 import { IFormSubmitProps } from '../components/form/form-interfaces';
 import { IMessage } from '../components/message/message-interfaces';
 
+interface IModalState {
+  type: 'fullCard' | null;
+  data: ICharacter | null;
+}
+
 interface IState {
   search: string;
   forms: IFormSubmitProps[];
   messages: IMessage[];
-  modal: JSX.Element | null;
+  modal: IModalState;
   cards: ICharacter[];
 }
 
@@ -16,7 +21,10 @@ const initialState: IState = {
   search: '',
   forms: [],
   messages: [],
-  modal: null,
+  modal: {
+    type: null,
+    data: null,
+  },
   cards: [],
 };
 
@@ -39,11 +47,12 @@ const appSlice = createSlice({
     removeMessage: (state) => {
       state.messages.shift();
     },
-    setModal: (state, action: PayloadAction<JSX.Element | null>) => {
-      state.modal = action.payload;
+    setModal: (state, action: PayloadAction<IModalState>) => {
+      state.modal = { ...action.payload };
     },
     removeModal: (state) => {
-      state.modal = null;
+      state.modal.type = null;
+      state.modal.data = null;
     },
   },
 });

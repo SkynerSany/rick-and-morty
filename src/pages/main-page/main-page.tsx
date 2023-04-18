@@ -5,8 +5,6 @@ import './main-page.scss';
 import Pagination from '../../components/pagination/pagination';
 
 export default function Main(): JSX.Element {
-  document.title = 'RS React';
-  // const [search, setSearch] = useState(localStorage.getItem('search') || '');
   const [allPages, setAllPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
 
