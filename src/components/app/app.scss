@@ -1,0 +1,65 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+button {
+  border: none;
+  background-color: none;
+  cursor: pointer;
+}
+
+input {
+  cursor: text;
+}
+
+input,
+button {
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 1366px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.page-title {
+  margin: 20px;
+
+  font-size: 32px;
+  text-align: center;
+}
+
+.center-loc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading {
+  background: #eee;
+  background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+  border-radius: 5px;
+  background-size: 200% 100%;
+
+  animation: 1.5s shine linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position-x: -200%;
+  }
+}

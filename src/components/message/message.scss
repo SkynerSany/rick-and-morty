@@ -1,0 +1,35 @@
+.message {
+  height: 100px;
+  width: 240px;
+
+  border-radius: 8px;
+
+  animation: hide 0.5s 2s forwards linear;
+
+  &.error {
+    background-color: rgb(255 0 0 / 50%);
+  }
+
+  &.info {
+    background-color: rgba(0, 139, 7, 0.5);
+  }
+}
+
+.message__text {
+  padding: 10px;
+
+  font-size: 18px;
+  color: white;
+  word-break: break-word;
+  text-shadow: 0 0 4px black;
+  text-align: center;
+}
+
+@keyframes hide {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
